@@ -84,8 +84,11 @@ jobs:
       id: apkFile
       run: echo "apkfile=$(find app/build/outputs/apk/nightly/*.apk)" >> $GITHUB_OUTPUT
 
-    - name: Upload Nightly Build to Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-          name: banafsh-nightly.apk
-          path: ${{ steps.apkFile.outputs.apkfile }}
+    - name: Send apk to telegram
+      run: |
+        curl https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendDocument \
+          -F chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -F "caption=Size: $(ls -l --block-size=K "${{ steps.apkFile.outputs.apkfile }}" | awk '{ print $5 }')" \
+          -F parse_mode=HTML \
+          -F document=@"${{ steps.apkFile.outputs.apkfile }}"
+
