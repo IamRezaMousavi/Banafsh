@@ -9,6 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
     - name: set up JDK
       uses: actions/setup-java@v4
       with:
@@ -18,9 +19,6 @@ jobs:
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
-
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
 
     - name: Run android lint
       run: ./gradlew lint
@@ -36,3 +34,4 @@ jobs:
 
     - name: Build Debug
       run: ./gradlew assembleDebug
+
