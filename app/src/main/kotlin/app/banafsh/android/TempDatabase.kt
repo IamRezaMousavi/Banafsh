@@ -11,13 +11,18 @@ import androidx.room.RoomDatabase
 import androidx.room.Transaction
 import app.banafsh.android.lib.core.data.enums.SongSortBy
 import app.banafsh.android.lib.core.data.enums.SortOrder
+import app.banafsh.android.models.Album
+import app.banafsh.android.models.Artist
 import app.banafsh.android.models.Song
+import app.banafsh.android.models.SongAlbumMap
+import app.banafsh.android.models.SongArtistMap
 import app.banafsh.android.service.LOCAL_KEY_PREFIX
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 @Dao
+@Suppress("TooManyFunctions")
 interface TempDatabase {
     companion object : TempDatabase by TempDatabaseInitializer.instance.database
 
@@ -84,13 +89,31 @@ interface TempDatabase {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(song: Song): Long
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(album: Album, songAlbumMap: SongAlbumMap)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(artists: List<Artist>, songArtistMaps: List<SongArtistMap>)
+
+    @Transaction
+    fun insert(item: Triple<Song, Pair<Album, SongAlbumMap>, Pair<Artist, SongArtistMap>>) {
+        val (song, album, artist) = item
+        insert(song)
+        insert(album.first, album.second)
+        insert(listOf(artist.first), listOf(artist.second))
+    }
+
     @Delete
     fun delete(song: Song)
 }
 
 @androidx.room.Database(
     entities = [
-        Song::class
+        Song::class,
+        Artist::class,
+        SongArtistMap::class,
+        Album::class,
+        SongAlbumMap::class
     ],
     version = 1
 )

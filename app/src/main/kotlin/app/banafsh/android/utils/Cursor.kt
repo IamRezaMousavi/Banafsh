@@ -9,13 +9,18 @@ import android.database.DataSetObserver
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.MediaStore.Audio.Media.ALBUM
+import android.provider.MediaStore.Audio.Media.ALBUM_ARTIST
 import android.provider.MediaStore.Audio.Media.ALBUM_ID
 import android.provider.MediaStore.Audio.Media.ARTIST
+import android.provider.MediaStore.Audio.Media.ARTIST_ID
 import android.provider.MediaStore.Audio.Media.DATA
 import android.provider.MediaStore.Audio.Media.DATE_MODIFIED
 import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.IS_MUSIC
 import android.provider.MediaStore.Audio.Media.TITLE
+import android.provider.MediaStore.Audio.Media.TRACK
+import android.provider.MediaStore.Audio.Media.YEAR
 import android.provider.MediaStore.Audio.Media._ID
 import app.banafsh.android.lib.core.ui.utils.isAtLeastAndroid10
 import kotlin.properties.ReadOnlyProperty
@@ -183,8 +188,13 @@ class AudioMediaCursor(cursor: Cursor) : CursorDao(cursor) {
     val duration by int(DURATION)
     val dateModified by long(DATE_MODIFIED)
     val artist by string(ARTIST)
+    val artistId by long(ARTIST_ID)
     val path by string(DATA)
-    private val albumId by long(ALBUM_ID)
+    val album by string(ALBUM)
+    val albumId by long(ALBUM_ID)
+    val albumArtist by nullableString(ALBUM_ARTIST)
+    val position by int(TRACK)
+    val year by nullableInt(YEAR)
 
     val albumUri get() = ContentUris.withAppendedId(ALBUM_URI_BASE, albumId)
 }

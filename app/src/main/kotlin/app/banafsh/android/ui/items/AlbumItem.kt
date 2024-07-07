@@ -32,7 +32,7 @@ fun AlbumItem(
 ) = AlbumItem(
     thumbnailUrl = album.thumbnailUrl,
     title = album.title,
-    authors = album.authorsText,
+    authors = album.artistsText,
     year = album.year,
     thumbnailSize = thumbnailSize,
     alternative = alternative,

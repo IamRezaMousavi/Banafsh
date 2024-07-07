@@ -116,6 +116,7 @@ dependencies {
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.activity)
+    implementation(libs.compose.viewmodel)
     implementation(libs.compose.animation)
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui)

@@ -248,7 +248,7 @@ class PlayerMediaBrowserService : MediaBrowserService(), ServiceConnection {
             BrowserMediaDescription.Builder()
                 .setMediaId((MediaId.ALBUMS / id).id)
                 .setTitle(title)
-                .setSubtitle(authorsText)
+                .setSubtitle(artistsText)
                 .setIconUri(thumbnailUrl?.toUri())
                 .build(),
             BrowserMediaItem.FLAG_PLAYABLE
