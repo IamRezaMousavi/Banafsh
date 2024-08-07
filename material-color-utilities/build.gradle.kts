@@ -7,5 +7,5 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 dependencies {
-    implementation("androidx.annotation:annotation:1.8.1")
+    implementation("androidx.annotation:annotation:1.8.2")
 }
