@@ -30,7 +30,7 @@ brotli = "0.1.2"
 palette = "1.0.0"
 monet = "0.4.1"
 
-desugaring = "2.0.4"
+desugaring = "2.1.0"
 
 [plugins]
 android_application = { id = "com.android.application", version.ref = "agp" }
