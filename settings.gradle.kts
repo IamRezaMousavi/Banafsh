@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":material-color-utilities")
+
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
