@@ -63,7 +63,7 @@ inline fun NavigationRail(
             modifier = Modifier
                 .size(
                     width = Dimensions.navigationRail.width,
-                    height = 140.dp
+                    height = Dimensions.items.headerHeight
                 )
         ) {
             Image(
