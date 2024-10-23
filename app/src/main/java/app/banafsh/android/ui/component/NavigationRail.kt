@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.banafsh.android.LocalPlayerAwareWindowInsets
+import app.banafsh.android.ui.theme.Dimensions
 
 @Composable
 inline fun NavigationRail(
@@ -61,7 +62,7 @@ inline fun NavigationRail(
             contentAlignment = Alignment.TopCenter,
             modifier = Modifier
                 .size(
-                    width = 64.dp,
+                    width = Dimensions.navigationRail.width,
                     height = 140.dp
                 )
         ) {
@@ -71,7 +72,7 @@ inline fun NavigationRail(
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary),
                 modifier = Modifier
                     .offset(
-                        x = 6.dp,
+                        x = Dimensions.navigationRail.iconOffset,
                         y = 48.dp
                     )
                     .clip(CircleShape)
