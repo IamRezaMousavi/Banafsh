@@ -42,9 +42,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.banafsh.android.model.Song
 import app.banafsh.android.ui.component.Header
 import app.banafsh.android.ui.component.Scaffold
 import app.banafsh.android.ui.component.Switch2
+import app.banafsh.android.ui.item.SongItem
 import app.banafsh.android.ui.theme.BanafshTheme
 
 val LocalPlayerAwareWindowInsets =
@@ -218,11 +220,8 @@ class MainActivity : ComponentActivity() {
 
                             }
                             items(150, { it.toString() }) {
-                                Text(
-                                    it.toString(),
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
+                                val song = Song(it.toString(), "Number $it", "Reza Mousavi", 10245)
+                                SongItem(song)
                             }
 
                         }
@@ -232,4 +231,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

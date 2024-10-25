@@ -29,7 +29,7 @@ object Dimensions {
         val collapsedPlayerHeight = 64.dp
 
         val verticalPadding = 8.dp
-        val horizontalPadding = 16.dp
+        val horizontalPadding = 8.dp
 
         val gap = 4.dp
     }
