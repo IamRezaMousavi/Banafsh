@@ -1,5 +1,6 @@
 package app.banafsh.android.ui.screen.home
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -96,11 +97,13 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(
-                        text,
-                        color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.Start
-                    )
+                    AnimatedContent(targetState = text, label = "") { text ->
+                        Text(
+                            text,
+                            color = MaterialTheme.colorScheme.primary,
+                            textAlign = TextAlign.Start
+                        )
+                    }
                 }
 
                 Row(
