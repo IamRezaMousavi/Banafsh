@@ -15,9 +15,10 @@ object Dimensions {
 
         object Player {
             val song
-                @Composable get() = with(LocalConfiguration.current) {
-                    minOf(screenHeightDp, screenWidthDp)
-                }.dp
+                @Composable get() =
+                    with(LocalConfiguration.current) {
+                        minOf(screenHeightDp, screenWidthDp)
+                    }.dp
         }
     }
 

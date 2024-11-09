@@ -18,22 +18,24 @@ import app.banafsh.android.ui.theme.Dimensions
 fun Header(
     titleContent: @Composable () -> Unit,
     actionsContent: @Composable RowScope.() -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) = Box(
     contentAlignment = Alignment.CenterEnd,
-    modifier = modifier
-        .padding(horizontal = 16.dp)
-        .height(Dimensions.items.headerHeight)
-        .fillMaxWidth()
+    modifier =
+        modifier
+            .padding(horizontal = 16.dp)
+            .height(Dimensions.items.headerHeight)
+            .fillMaxWidth(),
 ) {
     titleContent()
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .align(Alignment.BottomEnd)
-            .heightIn(min = 48.dp),
-        content = actionsContent
+        modifier =
+            Modifier
+                .align(Alignment.BottomEnd)
+                .heightIn(min = 48.dp),
+        content = actionsContent,
     )
 }

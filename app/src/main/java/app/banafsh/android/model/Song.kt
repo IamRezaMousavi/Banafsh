@@ -5,5 +5,5 @@ data class Song(
     val title: String,
     val artist: String? = null,
     val duration: Long? = null,
-    val dateModified: Long? = null
+    val dateModified: Long? = null,
 )

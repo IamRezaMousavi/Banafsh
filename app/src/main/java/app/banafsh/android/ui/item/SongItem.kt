@@ -25,69 +25,73 @@ import app.banafsh.android.ui.theme.Dimensions
 fun SongItem(
     song: Song,
     modifier: Modifier = Modifier,
-    trailingContent: @Composable (() -> Unit)? = null
+    trailingContent: @Composable (() -> Unit)? = null,
 ) = Row(
     verticalAlignment = Alignment.CenterVertically,
     horizontalArrangement = Arrangement.spacedBy(12.dp),
-    modifier = modifier
-        .padding(
-            vertical = Dimensions.items.verticalPadding,
-            horizontal = Dimensions.items.horizontalPadding
-        )
-        .fillMaxWidth()
+    modifier =
+        modifier
+            .padding(
+                vertical = Dimensions.items.verticalPadding,
+                horizontal = Dimensions.items.horizontalPadding,
+            )
+            .fillMaxWidth(),
 ) {
     Box(
-        modifier = Modifier
-            .size(Dimensions.thumbnails.song)
-            .clip(RoundedCornerShape(4.dp))
-            .background(MaterialTheme.colorScheme.tertiaryContainer),
-        content = {}
+        modifier =
+            Modifier
+                .size(Dimensions.thumbnails.song)
+                .clip(RoundedCornerShape(4.dp))
+                .background(MaterialTheme.colorScheme.tertiaryContainer),
+        content = {},
     )
 
     Column(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(4.dp),
-        modifier = Modifier.align(Alignment.CenterVertically)
+        modifier = Modifier.align(Alignment.CenterVertically),
     ) {
         trailingContent?.let {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 BasicText(
                     text = song.title,
-                    style = MaterialTheme.typography.titleSmall.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
-                    ),
+                    style =
+                        MaterialTheme.typography.titleSmall.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                        ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
 
                 it()
             }
         } ?: BasicText(
             text = song.title,
-            style = MaterialTheme.typography.titleSmall.copy(
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            ),
+            style =
+                MaterialTheme.typography.titleSmall.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                ),
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
         )
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             song.artist?.let { artist ->
                 BasicText(
                     text = artist,
                     style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.secondary),
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
 
@@ -97,7 +101,7 @@ fun SongItem(
                     style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.secondary),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = 4.dp),
                 )
             }
         }

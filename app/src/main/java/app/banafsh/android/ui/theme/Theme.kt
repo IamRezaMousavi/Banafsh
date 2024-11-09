@@ -11,15 +11,16 @@ fun BanafshTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     MaterialTheme(
-        colorScheme = SchemeTonalSpot(
-            Hct.fromInt(0xffff0000.toInt()),
-            darkTheme,
-            0.0
-        ).toColorScheme(),
+        colorScheme =
+            SchemeTonalSpot(
+                Hct.fromInt(0xffff0000.toInt()),
+                darkTheme,
+                0.0,
+            ).toColorScheme(),
         typography = Typography,
-        content = content
+        content = content,
     )
 }

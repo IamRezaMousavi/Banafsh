@@ -19,7 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import app.banafsh.android.ui.screen.home.HomeScreen
+import app.banafsh.android.ui.NavigationStack
 import app.banafsh.android.ui.theme.BanafshTheme
 
 val LocalPlayerAwareWindowInsets =
@@ -40,24 +40,25 @@ class MainActivity : ComponentActivity() {
                 val imeBottomDp = with(density) { WindowInsets.ime.getBottom(density).toDp() }
                 val animatedBottomDp by animateDpAsState(
                     targetValue = if (imeVisible) 0.dp else bottomDp,
-                    label = ""
+                    label = "",
                 )
 
-                val playerAwareWindowInsets = remember(
-                    bottomDp,
-                    animatedBottomDp,
-                    imeVisible,
-                    imeBottomDp
-                ) {
-                    windowsInsets
-                        .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
-                        .add(WindowInsets(bottom = 6.dp))
-                }
+                val playerAwareWindowInsets =
+                    remember(
+                        bottomDp,
+                        animatedBottomDp,
+                        imeVisible,
+                        imeBottomDp,
+                    ) {
+                        windowsInsets
+                            .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+                            .add(WindowInsets(bottom = 6.dp))
+                    }
 
                 CompositionLocalProvider(
                     LocalPlayerAwareWindowInsets provides playerAwareWindowInsets,
                 ) {
-                    HomeScreen()
+                    NavigationStack()
                 }
             }
         }

@@ -45,47 +45,52 @@ inline fun NavigationRail(
     tabIndex: Int,
     crossinline onTabIndexChange: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable ColumnScope.(@Composable (Int, String, Int) -> Unit) -> Unit
+    content: @Composable ColumnScope.(@Composable (Int, String, Int) -> Unit) -> Unit,
 ) {
-    val paddingValues = LocalPlayerAwareWindowInsets.current
-        .only(WindowInsetsSides.Vertical + WindowInsetsSides.Start)
-        .asPaddingValues()
+    val paddingValues =
+        LocalPlayerAwareWindowInsets.current
+            .only(WindowInsetsSides.Vertical + WindowInsetsSides.Start)
+            .asPaddingValues()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(paddingValues)
-            .fillMaxHeight()
+        modifier =
+            modifier
+                .verticalScroll(rememberScrollState())
+                .padding(paddingValues)
+                .fillMaxHeight(),
     ) {
         Box(
             contentAlignment = Alignment.TopCenter,
-            modifier = Modifier
-                .size(
-                    width = Dimensions.navigationRail.width,
-                    height = Dimensions.items.headerHeight
-                )
+            modifier =
+                Modifier
+                    .size(
+                        width = Dimensions.navigationRail.width,
+                        height = Dimensions.items.headerHeight,
+                    ),
         ) {
             Image(
                 painter = painterResource(topIconButtonId),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary),
-                modifier = Modifier
-                    .offset(
-                        x = Dimensions.navigationRail.iconOffset,
-                        y = 48.dp
-                    )
-                    .clip(CircleShape)
-                    .clickable(onClick = onTopIconButtonClick)
-                    .padding(all = 12.dp)
-                    .size(22.dp)
+                modifier =
+                    Modifier
+                        .offset(
+                            x = Dimensions.navigationRail.iconOffset,
+                            y = 48.dp,
+                        )
+                        .clip(CircleShape)
+                        .clickable(onClick = onTopIconButtonClick)
+                        .padding(all = 12.dp)
+                        .size(22.dp),
             )
         }
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxHeight()
+            modifier =
+                Modifier
+                    .fillMaxHeight(),
         ) {
             val transition = updateTransition(targetState = tabIndex, label = null)
 
@@ -95,42 +100,50 @@ inline fun NavigationRail(
                 }
 
                 val textColor by transition.animateColor(label = "") {
-                    if (it == index) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(
-                        alpha = 0.38f
-                    )
+                    if (it == index) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.onSurface.copy(
+                            alpha = 0.38f,
+                        )
+                    }
                 }
 
-                val contentModifier = Modifier
-                    .clickable(onClick = { onTabIndexChange(index) })
+                val contentModifier =
+                    Modifier
+                        .clickable(onClick = { onTabIndexChange(index) })
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = contentModifier.padding(horizontal = 8.dp)
+                    modifier = contentModifier.padding(horizontal = 8.dp),
                 ) {
                     Image(
                         painter = painterResource(icon),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
-                        modifier = Modifier
-                            .vertical(true)
-                            .graphicsLayer {
-                                alpha = dothAlpha
-                                translationX = (1f - dothAlpha) * -48.dp.toPx()
-                                rotationZ = -90f
-                            }
-                            .size(6.dp * 2)
+                        modifier =
+                            Modifier
+                                .vertical(true)
+                                .graphicsLayer {
+                                    alpha = dothAlpha
+                                    translationX = (1f - dothAlpha) * -48.dp.toPx()
+                                    rotationZ = -90f
+                                }
+                                .size(6.dp * 2),
                     )
                     BasicText(
                         text = text,
-                        style = TextStyle(
-                            fontWeight = FontWeight.SemiBold,
-                            color = textColor,
-                            textAlign = TextAlign.Center
-                        ),
-                        modifier = Modifier
-                            .vertical(true)
-                            .rotate(-90f)
-                            .padding(horizontal = 16.dp)
+                        style =
+                            TextStyle(
+                                fontWeight = FontWeight.SemiBold,
+                                color = textColor,
+                                textAlign = TextAlign.Center,
+                            ),
+                        modifier =
+                            Modifier
+                                .vertical(true)
+                                .rotate(-90f)
+                                .padding(horizontal = 16.dp),
                     )
                 }
             }
@@ -139,13 +152,16 @@ inline fun NavigationRail(
 }
 
 fun Modifier.vertical(enabled: Boolean = true) =
-    if (enabled)
+    if (enabled) {
         layout { measurable, constraints ->
             val placeable = measurable.measure(constraints.copy(maxWidth = Int.MAX_VALUE))
             layout(placeable.height, placeable.width) {
                 placeable.place(
                     x = -(placeable.width / 2 - placeable.height / 2),
-                    y = -(placeable.height / 2 - placeable.width / 2)
+                    y = -(placeable.height / 2 - placeable.width / 2),
                 )
             }
-        } else this
+        }
+    } else {
+        this
+    }

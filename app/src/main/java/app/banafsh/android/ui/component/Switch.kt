@@ -31,31 +31,37 @@ fun DrawScope.drawCircle(
     alpha: Float = 1.0f,
     style: PaintingStyle = PaintingStyle.Fill,
     colorFilter: ColorFilter? = null,
-    blendMode: BlendMode = DrawScope.DefaultBlendMode
+    blendMode: BlendMode = DrawScope.DefaultBlendMode,
 ) = drawContext.canvas.nativeCanvas.drawCircle(
-    /* cx = */ center.x,
-    /* cy = */ center.y,
-    /* radius = */ radius,
-    /* paint = */ Paint().also {
+    // cx =
+    center.x,
+    // cy =
+    center.y,
+    // radius =
+    radius,
+    // paint =
+    Paint().also {
         it.color = color
         it.alpha = alpha
         it.blendMode = blendMode
         it.colorFilter = colorFilter
         it.style = style
     }.asFrameworkPaint().also {
-        if (shadow != Shadow.None) it.setShadowLayer(
-            shadow.blurRadius,
-            shadow.offset.x,
-            shadow.offset.y,
-            shadow.color.toArgb()
-        )
-    }
+        if (shadow != Shadow.None) {
+            it.setShadowLayer(
+                shadow.blurRadius,
+                shadow.offset.x,
+                shadow.offset.y,
+                shadow.color.toArgb(),
+            )
+        }
+    },
 )
 
 @Composable
 fun Switch2(
     isChecked: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val transition = updateTransition(targetState = isChecked, label = null)
 
@@ -64,8 +70,11 @@ fun Switch2(
     }
 
     val color by transition.animateColor(label = "") {
-        if (it) MaterialTheme.colorScheme.onPrimary
-        else MaterialTheme.colorScheme.outline.copy(alpha = 0.38f)
+        if (it) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.outline.copy(alpha = 0.38f)
+        }
     }
 
     val offset by transition.animateDp(label = "") {
@@ -75,18 +84,19 @@ fun Switch2(
     Canvas(modifier = modifier.size(width = 48.dp, height = 24.dp)) {
         drawRoundRect(
             color = backgroundColor,
-            cornerRadius = CornerRadius(x = 12.dp.toPx(), y = 12.dp.toPx())
+            cornerRadius = CornerRadius(x = 12.dp.toPx(), y = 12.dp.toPx()),
         )
 
         drawCircle(
             color = color,
             radius = 8.dp.toPx(),
             center = size.center.copy(x = offset.toPx()),
-            shadow = Shadow(
-                color = Color.Black.copy(alpha = if (isChecked) 0.4f else 0.1f),
-                blurRadius = 8.dp.toPx(),
-                offset = Offset(x = -1.dp.toPx(), y = 1.dp.toPx())
-            )
+            shadow =
+                Shadow(
+                    color = Color.Black.copy(alpha = if (isChecked) 0.4f else 0.1f),
+                    blurRadius = 8.dp.toPx(),
+                    offset = Offset(x = -1.dp.toPx(), y = 1.dp.toPx()),
+                ),
         )
     }
 }

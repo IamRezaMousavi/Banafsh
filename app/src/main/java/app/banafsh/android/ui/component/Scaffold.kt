@@ -24,40 +24,43 @@ fun Scaffold(
     onTabChange: (Int) -> Unit,
     tabColumnContent: @Composable ColumnScope.(@Composable (Int, String, Int) -> Unit) -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable AnimatedVisibilityScope.(Int) -> Unit
+    content: @Composable AnimatedVisibilityScope.(Int) -> Unit,
 ) {
     Row(
-        modifier = modifier
-            .background(MaterialTheme.colorScheme.surface)
-            .fillMaxSize()
+        modifier =
+            modifier
+                .background(MaterialTheme.colorScheme.surface)
+                .fillMaxSize(),
     ) {
         NavigationRail(
             topIconButtonId = topIconButtonId,
             onTopIconButtonClick = onTopIconButtonClick,
             tabIndex = tabIndex,
             onTabIndexChange = onTabChange,
-            content = tabColumnContent
+            content = tabColumnContent,
         )
 
         AnimatedContent(
             targetState = tabIndex,
             transitionSpec = {
-                val slideDirection = when (targetState > initialState) {
-                    true -> AnimatedContentTransitionScope.SlideDirection.Up
-                    false -> AnimatedContentTransitionScope.SlideDirection.Down
-                }
+                val slideDirection =
+                    when (targetState > initialState) {
+                        true -> AnimatedContentTransitionScope.SlideDirection.Up
+                        false -> AnimatedContentTransitionScope.SlideDirection.Down
+                    }
 
-                val animationSpec = spring(
-                    dampingRatio = 0.9f,
-                    stiffness = Spring.StiffnessLow,
-                    visibilityThreshold = IntOffset.VisibilityThreshold
-                )
+                val animationSpec =
+                    spring(
+                        dampingRatio = 0.9f,
+                        stiffness = Spring.StiffnessLow,
+                        visibilityThreshold = IntOffset.VisibilityThreshold,
+                    )
 
                 slideIntoContainer(slideDirection, animationSpec) togetherWith
-                        slideOutOfContainer(slideDirection, animationSpec)
+                    slideOutOfContainer(slideDirection, animationSpec)
             },
             content = content,
-            label = ""
+            label = "",
         )
     }
 }
