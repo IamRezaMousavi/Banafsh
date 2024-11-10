@@ -59,7 +59,7 @@ fun DrawScope.drawCircle(
 )
 
 @Composable
-fun Switch2(
+fun Switch(
     isChecked: Boolean,
     modifier: Modifier = Modifier,
 ) {
