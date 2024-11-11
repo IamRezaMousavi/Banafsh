@@ -13,9 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import app.banafsh.android.ui.theme.Dimensions
 
 @Composable
@@ -54,8 +52,7 @@ fun Header(
     titleContent = {
         Text(
             title,
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Medium,
+            style = MaterialTheme.typography.headlineLarge,
             color = MaterialTheme.colorScheme.onSurface,
         )
     },

@@ -18,9 +18,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -31,9 +31,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.banafsh.android.LocalPlayerAwareWindowInsets
 import app.banafsh.android.ui.theme.Dimensions
@@ -88,9 +85,7 @@ inline fun NavigationRail(
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier =
-                Modifier
-                    .fillMaxHeight(),
+            modifier = Modifier.fillMaxHeight(),
         ) {
             val transition = updateTransition(targetState = tabIndex, label = null)
 
@@ -131,14 +126,10 @@ inline fun NavigationRail(
                                 }
                                 .size(6.dp * 2),
                     )
-                    BasicText(
+                    Text(
                         text = text,
-                        style =
-                            TextStyle(
-                                fontWeight = FontWeight.SemiBold,
-                                color = textColor,
-                                textAlign = TextAlign.Center,
-                            ),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = textColor,
                         modifier =
                             Modifier
                                 .vertical(true)

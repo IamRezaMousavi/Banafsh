@@ -21,9 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import app.banafsh.android.LocalPlayerAwareWindowInsets
 import app.banafsh.android.R
@@ -83,8 +81,7 @@ fun SettingsCategoryScreen(
             description?.let { description ->
                 Text(
                     description,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSecondary,
                 )
                 SettingsGroupSpacer()
@@ -103,7 +100,7 @@ fun SettingsGroup(
 ) = Column(modifier = modifier) {
     Text(
         title.uppercase(),
-        fontWeight = FontWeight.SemiBold,
+        style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.primary,
         modifier =
             Modifier
@@ -113,8 +110,7 @@ fun SettingsGroup(
     description?.let {
         Text(
             description,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSecondary,
             modifier =
                 Modifier
@@ -148,15 +144,13 @@ fun SettingsEntry(
     Column(modifier = Modifier.weight(1f)) {
         Text(
             title,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface,
         )
         text?.let {
             Text(
                 text,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
