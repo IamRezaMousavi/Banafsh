@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Banafsh</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="appearance">Appearance</string>
+    <string name="colors">Colors</string>
+    <string name="songs">Songs</string>
+
+    <string name="color_source">Accent color source</string>
+    <string name="color_source_default">Default</string>
+    <string name="color_source_dynamic">Dynamic</string>
+    <string name="color_source_material_you">Material You</string>
+
+    <string name="darkness">Darkness</string>
+    <string name="darkness_normal">Normal</string>
+    <string name="darkness_pureblack">PureBlack</string>
+    <string name="darkness_amoled">AMOLED</string>
+
+    <string name="color_mode">Mode</string>
+    <string name="color_mode_light">Light</string>
+    <string name="color_mode_dark">Dark</string>
+    <string name="color_mode_system">System</string>
+
+    <string name="swipe_to_hide_song">Swipe to hide song</string>
+    <string name="swipe_to_hide_song_description">When you swipe a song to the left, it gets removed from the database and cache</string>
 </resources>

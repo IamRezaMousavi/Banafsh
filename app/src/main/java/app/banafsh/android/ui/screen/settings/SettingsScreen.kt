@@ -18,6 +18,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -30,6 +34,9 @@ import app.banafsh.android.ui.Screen
 import app.banafsh.android.ui.component.Header
 import app.banafsh.android.ui.component.Scaffold
 import app.banafsh.android.ui.component.Switch
+import app.banafsh.android.ui.component.ValueSelectorDialog
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun SettingsScreen(
@@ -157,6 +164,61 @@ fun SettingsEntry(
     }
 
     trailingContent?.invoke()
+}
+
+@Composable
+inline fun <reified T : Enum<T>> EnumValueSelectorSettingsEntry(
+    title: String,
+    selectedValue: T,
+    noinline onValueSelect: (T) -> Unit,
+    modifier: Modifier = Modifier,
+    isEnabled: Boolean = true,
+    noinline valueText: @Composable (T) -> String = { it.name },
+    noinline trailingContent: (@Composable () -> Unit)? = null,
+) = ValueSelectorSettingsEntry(
+    title = title,
+    selectedValue = selectedValue,
+    values = enumValues<T>().toList().toImmutableList(),
+    onValueSelect = onValueSelect,
+    modifier = modifier,
+    isEnabled = isEnabled,
+    valueText = valueText,
+    trailingContent = trailingContent,
+)
+
+@Composable
+fun <T> ValueSelectorSettingsEntry(
+    title: String,
+    selectedValue: T,
+    values: ImmutableList<T>,
+    onValueSelect: (T) -> Unit,
+    modifier: Modifier = Modifier,
+    text: String? = null,
+    isEnabled: Boolean = true,
+    valueText: @Composable (T) -> String = { it.toString() },
+    trailingContent: (@Composable () -> Unit)? = null,
+) {
+    var isShowingDialog by remember { mutableStateOf(false) }
+
+    if (isShowingDialog) {
+        ValueSelectorDialog(
+            onDismiss = { isShowingDialog = false },
+            title = title,
+            selectedValue = selectedValue,
+            values = values,
+            onValueSelect = onValueSelect,
+            valueText = valueText,
+        )
+    }
+
+    SettingsEntry(
+        modifier = modifier,
+        title = title,
+        text = text ?: valueText(selectedValue),
+        onClick = { isShowingDialog = true },
+        isEnabled = isEnabled,
+        trailingContent = trailingContent,
+    )
 }
 
 @Composable

@@ -59,6 +59,8 @@ dependencies {
     implementation(libs.compose.coil)
     implementation(libs.compose.lottie)
 
+    implementation(libs.kotlin.immutable)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
 
