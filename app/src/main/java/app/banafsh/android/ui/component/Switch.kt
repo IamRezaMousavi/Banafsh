@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
+import app.banafsh.android.ui.theme.disable
 
 fun DrawScope.drawCircle(
     color: Color,
@@ -73,7 +74,7 @@ fun Switch(
         if (it) {
             MaterialTheme.colorScheme.onPrimary
         } else {
-            MaterialTheme.colorScheme.outline.copy(alpha = 0.38f)
+            MaterialTheme.colorScheme.disable
         }
     }
 

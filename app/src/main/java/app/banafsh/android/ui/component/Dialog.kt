@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import app.banafsh.android.R
+import app.banafsh.android.ui.theme.disable
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -73,6 +74,7 @@ fun <T> ValueSelectorDialog(
     ) {
         Text(
             text = title,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 24.dp),
         )
@@ -94,18 +96,18 @@ fun <T> ValueSelectorDialog(
                             .fillMaxWidth(),
                 ) {
                     if (selectedValue == value) {
-                        val primaryColor = MaterialTheme.colorScheme.primary
+                        val onCircleColor = MaterialTheme.colorScheme.onPrimary
                         Canvas(
                             modifier =
                                 Modifier
                                     .size(18.dp)
                                     .background(
-                                        color = primaryColor,
+                                        color = MaterialTheme.colorScheme.primary,
                                         shape = CircleShape,
                                     ),
                         ) {
                             drawCircle(
-                                color = primaryColor,
+                                color = onCircleColor,
                                 radius = 4.dp.toPx(),
                                 center = size.center,
                                 shadow =
@@ -123,7 +125,7 @@ fun <T> ValueSelectorDialog(
                                     .size(18.dp)
                                     .border(
                                         width = 1.dp,
-                                        color = MaterialTheme.colorScheme.onSurface,
+                                        color = MaterialTheme.colorScheme.disable,
                                         shape = CircleShape,
                                     ),
                         )
@@ -131,6 +133,7 @@ fun <T> ValueSelectorDialog(
 
                     Text(
                         text = valueText(value),
+                        color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.titleSmall,
                     )
                 }

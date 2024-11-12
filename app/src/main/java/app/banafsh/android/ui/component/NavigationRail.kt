@@ -34,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import app.banafsh.android.LocalPlayerAwareWindowInsets
 import app.banafsh.android.ui.theme.Dimensions
+import app.banafsh.android.ui.theme.disable
 
 @Composable
 inline fun NavigationRail(
@@ -98,9 +99,7 @@ inline fun NavigationRail(
                     if (it == index) {
                         MaterialTheme.colorScheme.primary
                     } else {
-                        MaterialTheme.colorScheme.onSurface.copy(
-                            alpha = 0.38f,
-                        )
+                        MaterialTheme.colorScheme.disable
                     }
                 }
 
