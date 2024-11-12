@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import app.banafsh.android.model.Song
+import app.banafsh.android.data.model.Song
 import app.banafsh.android.ui.theme.Dimensions
 
 @Composable

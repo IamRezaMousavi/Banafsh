@@ -1,4 +1,4 @@
-package app.banafsh.android.model
+package app.banafsh.android.data.model
 
 data class Song(
     val id: String,

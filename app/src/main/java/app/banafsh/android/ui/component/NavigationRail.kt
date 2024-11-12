@@ -97,7 +97,7 @@ inline fun NavigationRail(
 
                 val textColor by transition.animateColor(label = "") {
                     if (it == index) {
-                        MaterialTheme.colorScheme.primary
+                        MaterialTheme.colorScheme.onSurface
                     } else {
                         MaterialTheme.colorScheme.disable
                     }
@@ -114,7 +114,7 @@ inline fun NavigationRail(
                     Image(
                         painter = painterResource(icon),
                         contentDescription = null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
                         modifier =
                             Modifier
                                 .vertical(true)

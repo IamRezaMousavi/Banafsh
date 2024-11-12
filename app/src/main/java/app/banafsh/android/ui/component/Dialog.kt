@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
@@ -31,26 +30,6 @@ import androidx.compose.ui.window.Dialog
 import app.banafsh.android.R
 import app.banafsh.android.ui.theme.disable
 import kotlinx.collections.immutable.ImmutableList
-
-@Composable
-fun DialogTextButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    primary: Boolean = false,
-) = Text(
-    text = text,
-    style = MaterialTheme.typography.labelMedium,
-    color = MaterialTheme.colorScheme.onSurface,
-    modifier =
-        modifier
-            .clip(MaterialTheme.shapes.extraLarge)
-            .background(if (primary) MaterialTheme.colorScheme.primary else Color.Transparent)
-            .clickable(enabled = enabled, onClick = onClick)
-            .padding(all = 8.dp)
-            .padding(horizontal = 8.dp),
-)
 
 @Composable
 fun <T> ValueSelectorDialog(
@@ -65,7 +44,7 @@ fun <T> ValueSelectorDialog(
     Column(
         modifier =
             modifier
-                .padding(all = 48.dp)
+                .padding(all = 16.dp)
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     shape = MaterialTheme.shapes.medium,

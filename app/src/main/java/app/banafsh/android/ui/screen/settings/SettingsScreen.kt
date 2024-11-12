@@ -44,16 +44,16 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
-        topIconButtonId = R.drawable.ic_launcher_foreground,
+        topIconButtonId = R.drawable.chevron_back,
         onTopIconButtonClick = {
             navController.navigate(route = Screen.Home.route)
         },
         tabIndex = UIStatePreferences.homeScreenTabIndex,
         onTabChange = { UIStatePreferences.homeScreenTabIndex = it },
         tabColumnContent = { item ->
-            item(0, "UI", R.drawable.ic_launcher_foreground)
-            item(1, "DB", R.drawable.ic_launcher_foreground)
-            item(2, "About", R.drawable.ic_launcher_foreground)
+            item(0, "UI", R.drawable.color_palette)
+            item(1, "DB", R.drawable.server)
+            item(2, "About", R.drawable.information)
         },
         modifier = modifier,
     ) {
@@ -114,7 +114,7 @@ fun SettingsGroup(
                 .padding(start = 16.dp, top = 16.dp),
     )
 
-    description?.let {
+    description?.let { description ->
         Text(
             description,
             style = MaterialTheme.typography.bodyMedium,

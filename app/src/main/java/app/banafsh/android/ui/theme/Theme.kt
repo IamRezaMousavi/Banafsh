@@ -32,7 +32,7 @@ fun BanafshTheme(
     MaterialTheme(
         colorScheme =
             SchemeTonalSpot(
-                Hct.fromInt(0xffff0000.toInt()),
+                Hct.fromInt(baseColor.toArgb()),
                 isDark,
                 0.0,
             ).toColorScheme(),
