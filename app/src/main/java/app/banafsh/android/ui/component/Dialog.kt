@@ -125,7 +125,7 @@ fun <T> ValueSelectorDialog(
                     .align(Alignment.End)
                     .padding(end = 24.dp),
         ) {
-            DialogTextButton(
+            TextButton(
                 text = stringResource(R.string.cancel),
                 onClick = onDismiss,
             )

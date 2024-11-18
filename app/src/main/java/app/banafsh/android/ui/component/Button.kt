@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import app.banafsh.android.ui.theme.disable
 
 @Composable
-fun DialogTextButton(
+fun TextButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,

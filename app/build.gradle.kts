@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
 }
@@ -41,6 +42,10 @@ android {
     }
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
     implementation(libs.core.ktx)
 
@@ -58,6 +63,9 @@ dependencies {
     implementation(libs.compose.shimmer)
     implementation(libs.compose.coil)
     implementation(libs.compose.lottie)
+
+    implementation(libs.room)
+    ksp(libs.room.compiler)
 
     implementation(libs.kotlin.immutable)
 

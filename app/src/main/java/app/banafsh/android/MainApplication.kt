@@ -1,6 +1,7 @@
 package app.banafsh.android
 
 import android.app.Application
+import app.banafsh.android.db.DatabaseInitializer
 import app.banafsh.android.preference.PreferencesHolder
 
 class MainApplication : Application() {
@@ -16,6 +17,7 @@ object Dependencies {
 
     internal fun init(application: MainApplication) {
         this.application = application
+        DatabaseInitializer()
     }
 }
 

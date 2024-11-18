@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Banafsh</string>
+    <string name="home">Home</string>
     <string name="cancel">Cancel</string>
 
     <string name="appearance">Appearance</string>
@@ -23,4 +24,7 @@
 
     <string name="swipe_to_hide_song">Swipe to hide song</string>
     <string name="swipe_to_hide_song_description">When you swipe a song to the left, it gets removed from the database and cache</string>
+
+    <string name="media_permission_declined">Permission declined, please grant media permissions in the settings of your device.</string>
+    <string name="open_settings">Open settings</string>
 </resources>

@@ -30,6 +30,6 @@ fun HomeScreen(
         },
         modifier = modifier,
     ) {
-        HomeSong()
+        HomeLocalSong()
     }
 }
