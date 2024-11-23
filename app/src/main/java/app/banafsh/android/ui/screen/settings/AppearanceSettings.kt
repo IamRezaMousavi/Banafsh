@@ -11,42 +11,41 @@ import app.banafsh.android.ui.theme.ColorSource
 import app.banafsh.android.ui.theme.Darkness
 
 @Composable
-fun AppearanceSettings() =
-    with(AppearancePreferences) {
-        val isDark = isSystemInDarkTheme()
-        SettingsCategoryScreen(title = stringResource(R.string.appearance)) {
-            SettingsGroup(title = stringResource(R.string.colors)) {
+fun AppearanceSettings() = with(AppearancePreferences) {
+    val isDark = isSystemInDarkTheme()
+    SettingsCategoryScreen(title = stringResource(R.string.appearance)) {
+        SettingsGroup(title = stringResource(R.string.colors)) {
+            EnumValueSelectorSettingsEntry(
+                title = stringResource(R.string.color_source),
+                selectedValue = colorSource,
+                onValueSelect = { colorSource = it },
+                valueText = { it.nameLocalized },
+            )
+            EnumValueSelectorSettingsEntry(
+                title = stringResource(R.string.color_mode),
+                selectedValue = colorMode,
+                onValueSelect = { colorMode = it },
+                valueText = { it.nameLocalized },
+            )
+            AnimatedVisibility(visible = colorMode == ColorMode.Dark || (colorMode == ColorMode.System && isDark)) {
                 EnumValueSelectorSettingsEntry(
-                    title = stringResource(R.string.color_source),
-                    selectedValue = colorSource,
-                    onValueSelect = { colorSource = it },
+                    title = stringResource(R.string.darkness),
+                    selectedValue = darkness,
+                    onValueSelect = { darkness = it },
                     valueText = { it.nameLocalized },
-                )
-                EnumValueSelectorSettingsEntry(
-                    title = stringResource(R.string.color_mode),
-                    selectedValue = colorMode,
-                    onValueSelect = { colorMode = it },
-                    valueText = { it.nameLocalized },
-                )
-                AnimatedVisibility(visible = colorMode == ColorMode.Dark || (colorMode == ColorMode.System && isDark)) {
-                    EnumValueSelectorSettingsEntry(
-                        title = stringResource(R.string.darkness),
-                        selectedValue = darkness,
-                        onValueSelect = { darkness = it },
-                        valueText = { it.nameLocalized },
-                    )
-                }
-            }
-            SettingsGroup(title = stringResource(R.string.songs)) {
-                SwitchSettingsEntry(
-                    title = stringResource(R.string.swipe_to_hide_song),
-                    text = stringResource(R.string.swipe_to_hide_song_description),
-                    isChecked = swipeToHideSong,
-                    onCheckedChange = { swipeToHideSong = it },
                 )
             }
         }
+        SettingsGroup(title = stringResource(R.string.songs)) {
+            SwitchSettingsEntry(
+                title = stringResource(R.string.swipe_to_hide_song),
+                text = stringResource(R.string.swipe_to_hide_song_description),
+                isChecked = swipeToHideSong,
+                onCheckedChange = { swipeToHideSong = it },
+            )
+        }
     }
+}
 
 val ColorSource.nameLocalized
     @Composable get() =

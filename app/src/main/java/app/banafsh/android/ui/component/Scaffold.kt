@@ -28,9 +28,9 @@ fun Scaffold(
 ) {
     Row(
         modifier =
-            modifier
-                .background(MaterialTheme.colorScheme.surface)
-                .fillMaxSize(),
+        modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .fillMaxSize(),
     ) {
         NavigationRail(
             topIconButtonId = topIconButtonId,

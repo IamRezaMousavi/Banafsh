@@ -1,3 +1,7 @@
+config:
+  validation: true
+  warningsAsErrors: false
+
 Compose:
   ComposableAnnotationNaming:
     active: true
@@ -10,7 +14,7 @@ Compose:
     # -- You can optionally have a list of types to be treated as lambdas (e.g. typedefs or fun interfaces not picked up automatically)
     # treatAsLambda: MyLambdaType
   CompositionLocalAllowlist:
-    active: true
+    active: false
     # -- You can optionally define a list of CompositionLocals that are allowed here
     # allowedCompositionLocals: LocalSomething,LocalSomethingElse
   CompositionLocalNaming:
@@ -127,3 +131,44 @@ Compose:
     active: true
     # -- You can optionally add your own ViewModel factories here
     # viewModelFactories: hiltViewModel,potatoViewModel
+
+complexity:
+  ComplexCondition:
+    active: false
+  CyclomaticComplexMethod:
+    ignoreAnnotated:
+      - androidx.compose.runtime.Composable
+  LongParameterList:
+    ignoreAnnotated:
+      - androidx.compose.runtime.Composable
+    ignoreDefaultParameters: true
+    ignoreDataClasses: true
+  LongMethod:
+    active: false
+  TooManyFunctions:
+    active: false
+
+naming:
+  EnumNaming:
+    active: false # Handled by Android Lint
+  FunctionNaming:
+    ignoreAnnotated:
+      - androidx.compose.runtime.Composable
+  MatchingDeclarationName:
+    active: false
+
+style:
+  ForbiddenComment:
+    active: false
+  MagicNumber:
+    active: false
+  MaxLineLength:
+    active: false # Overlaps with MaximumLineLength, ktlint preferred because of auto-correct
+  ModifierOrder:
+    active: false # Overlaps with ModifierOrdering, ktlint preferred because of auto-correct
+  NewLineAtEndOfFile:
+    active: false # Overlaps with FinalNewline, ktlint preferred because of auto-correct
+  ReturnCount:
+    active: false
+  ThrowsCount:
+    active: false

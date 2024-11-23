@@ -49,10 +49,7 @@ interface Database {
     @RewriteQueriesToDropUnusedColumns
     fun songsByPlayTimeDesc(): Flow<List<Song>>
 
-    fun songs(
-        sortBy: SongSortBy,
-        sortOrder: SortOrder,
-    ) = when (sortBy) {
+    fun songs(sortBy: SongSortBy, sortOrder: SortOrder) = when (sortBy) {
         SongSortBy.PlayTime ->
             when (sortOrder) {
                 SortOrder.Ascending -> songsByPlayTimeAsc()
@@ -92,30 +89,27 @@ abstract class DatabaseInitializer protected constructor() : RoomDatabase() {
         @Volatile
         lateinit var instance: DatabaseInitializer
 
-        private fun buildDatabase() =
-            Room
-                .inMemoryDatabaseBuilder(
-                    context = Dependencies.application.applicationContext,
-                    klass = DatabaseInitializer::class.java,
-                )
-                .build()
+        private fun buildDatabase() = Room
+            .inMemoryDatabaseBuilder(
+                context = Dependencies.application.applicationContext,
+                klass = DatabaseInitializer::class.java,
+            )
+            .build()
 
         operator fun invoke() {
             if (!::instance.isInitialized) reload()
         }
 
-        private fun reload() =
-            synchronized(this) {
-                instance = buildDatabase()
-            }
+        private fun reload() = synchronized(this) {
+            instance = buildDatabase()
+        }
     }
 }
 
-fun queryTemp(block: () -> Unit) = DatabaseInitializer.instance.queryExecutor.execute(block)
+fun query(block: () -> Unit) = DatabaseInitializer.instance.queryExecutor.execute(block)
 
-fun transaction(block: () -> Unit) =
-    with(DatabaseInitializer.instance) {
-        transactionExecutor.execute {
-            runInTransaction(block)
-        }
+fun transaction(block: () -> Unit) = with(DatabaseInitializer.instance) {
+    transactionExecutor.execute {
+        runInTransaction(block)
     }
+}

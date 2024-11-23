@@ -24,10 +24,10 @@ fun Header(
 ) = Box(
     contentAlignment = Alignment.CenterEnd,
     modifier =
-        modifier
-            .padding(horizontal = 16.dp)
-            .height(Dimensions.items.headerHeight)
-            .fillMaxWidth(),
+    modifier
+        .padding(horizontal = 16.dp)
+        .height(Dimensions.items.headerHeight)
+        .fillMaxWidth(),
 ) {
     titleContent()
 
@@ -35,19 +35,15 @@ fun Header(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier =
-            Modifier
-                .align(Alignment.BottomEnd)
-                .heightIn(min = 48.dp),
+        Modifier
+            .align(Alignment.BottomEnd)
+            .heightIn(min = 48.dp),
         content = actionsContent,
     )
 }
 
 @Composable
-fun Header(
-    title: String,
-    modifier: Modifier = Modifier,
-    actionsContent: @Composable RowScope.() -> Unit = {},
-) = Header(
+fun Header(title: String, modifier: Modifier = Modifier, actionsContent: @Composable RowScope.() -> Unit = {}) = Header(
     modifier = modifier,
     titleContent = {
         Text(

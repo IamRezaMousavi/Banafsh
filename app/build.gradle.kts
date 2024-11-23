@@ -46,6 +46,11 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
+detekt {
+    buildUponDefaultConfig = true
+    config.setFrom("$rootDir/detekt.yml")
+}
+
 dependencies {
     implementation(libs.core.ktx)
 
@@ -66,6 +71,9 @@ dependencies {
 
     implementation(libs.room)
     ksp(libs.room.compiler)
+
+    implementation(libs.exoplayer)
+    implementation(libs.media3.session)
 
     implementation(libs.kotlin.immutable)
 

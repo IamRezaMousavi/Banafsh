@@ -58,16 +58,16 @@ fun HomeSong(
     val lazyListState = rememberLazyListState()
     Box(
         modifier =
-            modifier
-                .background(MaterialTheme.colorScheme.background)
-                .fillMaxSize(),
+        modifier
+            .background(MaterialTheme.colorScheme.background)
+            .fillMaxSize(),
     ) {
         LazyColumn(
             state = lazyListState,
             contentPadding =
-                LocalPlayerAwareWindowInsets.current
-                    .only(WindowInsetsSides.Vertical + WindowInsetsSides.End)
-                    .asPaddingValues(),
+            LocalPlayerAwareWindowInsets.current
+                .only(WindowInsetsSides.Vertical + WindowInsetsSides.End)
+                .asPaddingValues(),
         ) {
             item(
                 key = "header",

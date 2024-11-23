@@ -43,13 +43,13 @@ fun <T> ValueSelectorDialog(
 ) = Dialog(onDismissRequest = onDismiss) {
     Column(
         modifier =
-            modifier
-                .padding(all = 16.dp)
-                .background(
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    shape = MaterialTheme.shapes.medium,
-                )
-                .padding(vertical = 16.dp),
+        modifier
+            .padding(all = 16.dp)
+            .background(
+                color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                shape = MaterialTheme.shapes.medium,
+            )
+            .padding(vertical = 16.dp),
     ) {
         Text(
             text = title,
@@ -64,49 +64,49 @@ fun <T> ValueSelectorDialog(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     modifier =
-                        Modifier
-                            .clickable(
-                                onClick = {
-                                    onDismiss()
-                                    onValueSelect(value)
-                                },
-                            )
-                            .padding(vertical = 12.dp, horizontal = 24.dp)
-                            .fillMaxWidth(),
+                    Modifier
+                        .clickable(
+                            onClick = {
+                                onDismiss()
+                                onValueSelect(value)
+                            },
+                        )
+                        .padding(vertical = 12.dp, horizontal = 24.dp)
+                        .fillMaxWidth(),
                 ) {
                     if (selectedValue == value) {
                         val onCircleColor = MaterialTheme.colorScheme.onPrimary
                         Canvas(
                             modifier =
-                                Modifier
-                                    .size(18.dp)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.primary,
-                                        shape = CircleShape,
-                                    ),
+                            Modifier
+                                .size(18.dp)
+                                .background(
+                                    color = MaterialTheme.colorScheme.primary,
+                                    shape = CircleShape,
+                                ),
                         ) {
                             drawCircle(
                                 color = onCircleColor,
                                 radius = 4.dp.toPx(),
                                 center = size.center,
                                 shadow =
-                                    Shadow(
-                                        color = Color.Black.copy(alpha = 0.4f),
-                                        blurRadius = 4.dp.toPx(),
-                                        offset = Offset(x = 0f, y = 1.dp.toPx()),
-                                    ),
+                                Shadow(
+                                    color = Color.Black.copy(alpha = 0.4f),
+                                    blurRadius = 4.dp.toPx(),
+                                    offset = Offset(x = 0f, y = 1.dp.toPx()),
+                                ),
                             )
                         }
                     } else {
                         Spacer(
                             modifier =
-                                Modifier
-                                    .size(18.dp)
-                                    .border(
-                                        width = 1.dp,
-                                        color = MaterialTheme.colorScheme.disable,
-                                        shape = CircleShape,
-                                    ),
+                            Modifier
+                                .size(18.dp)
+                                .border(
+                                    width = 1.dp,
+                                    color = MaterialTheme.colorScheme.disable,
+                                    shape = CircleShape,
+                                ),
                         )
                     }
 
@@ -121,9 +121,9 @@ fun <T> ValueSelectorDialog(
 
         Box(
             modifier =
-                Modifier
-                    .align(Alignment.End)
-                    .padding(end = 24.dp),
+            Modifier
+                .align(Alignment.End)
+                .padding(end = 24.dp),
         ) {
             TextButton(
                 text = stringResource(R.string.cancel),

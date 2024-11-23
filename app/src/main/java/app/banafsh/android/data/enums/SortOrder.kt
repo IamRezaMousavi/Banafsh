@@ -5,9 +5,8 @@ enum class SortOrder {
     Descending,
     ;
 
-    operator fun not() =
-        when (this) {
-            Ascending -> Descending
-            Descending -> Ascending
-        }
+    operator fun not() = when (this) {
+        Ascending -> Descending
+        Descending -> Ascending
+    }
 }

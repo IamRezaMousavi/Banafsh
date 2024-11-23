@@ -39,10 +39,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun SettingsScreen(
-    navController: NavController,
-    modifier: Modifier = Modifier,
-) {
+fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) {
     Scaffold(
         topIconButtonId = R.drawable.chevron_back,
         onTopIconButtonClick = {
@@ -75,14 +72,14 @@ fun SettingsCategoryScreen(
 
     Column(
         modifier =
-            modifier
-                .fillMaxSize()
-                .verticalScroll(state = scrollState)
-                .padding(
-                    LocalPlayerAwareWindowInsets.current
-                        .only(WindowInsetsSides.Vertical + WindowInsetsSides.End)
-                        .asPaddingValues(),
-                ),
+        modifier
+            .fillMaxSize()
+            .verticalScroll(state = scrollState)
+            .padding(
+                LocalPlayerAwareWindowInsets.current
+                    .only(WindowInsetsSides.Vertical + WindowInsetsSides.End)
+                    .asPaddingValues(),
+            ),
     ) {
         Header(title = title) {
             description?.let { description ->
@@ -110,8 +107,8 @@ fun SettingsGroup(
         style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.primary,
         modifier =
-            Modifier
-                .padding(start = 16.dp, top = 16.dp),
+        Modifier
+            .padding(start = 16.dp, top = 16.dp),
     )
 
     description?.let { description ->
@@ -120,8 +117,8 @@ fun SettingsGroup(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSecondary,
             modifier =
-                Modifier
-                    .padding(start = 16.dp, top = 16.dp, bottom = 8.dp),
+            Modifier
+                .padding(start = 16.dp, top = 16.dp, bottom = 8.dp),
         )
     }
 
@@ -142,11 +139,11 @@ fun SettingsEntry(
     horizontalArrangement = Arrangement.spacedBy(16.dp),
     verticalAlignment = Alignment.CenterVertically,
     modifier =
-        modifier
-            .clickable(enabled = isEnabled, onClick = onClick)
-            .alpha(if (isEnabled) 1f else 0.5f)
-            .padding(16.dp)
-            .fillMaxWidth(),
+    modifier
+        .clickable(enabled = isEnabled, onClick = onClick)
+        .alpha(if (isEnabled) 1f else 0.5f)
+        .padding(16.dp)
+        .fillMaxWidth(),
 ) {
     Column(modifier = Modifier.weight(1f)) {
         Text(

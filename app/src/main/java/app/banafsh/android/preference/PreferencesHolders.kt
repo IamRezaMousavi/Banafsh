@@ -8,14 +8,14 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.Snapshot
 import androidx.core.content.edit
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
 
 private val coroutineScope = CoroutineScope(Dispatchers.IO + CoroutineName("PreferencesHolders"))
 
@@ -29,7 +29,7 @@ data class SharedPreferencesProperty<T : Any>(
     private val default: T,
 ) : ReadWriteProperty<PreferencesHolder, T> {
     private val state = mutableStateOf(default)
-    val stateFlow = MutableStateFlow(default)
+    private val stateFlow = MutableStateFlow(default)
     private var listener: OnSharedPreferenceChangeListener? = null
 
     private fun setState(newValue: T) {
@@ -39,10 +39,7 @@ data class SharedPreferencesProperty<T : Any>(
 
     private inline val KProperty<*>.key get() = this@SharedPreferencesProperty.name ?: name
 
-    override fun getValue(
-        thisRef: PreferencesHolder,
-        property: KProperty<*>,
-    ): T {
+    override fun getValue(thisRef: PreferencesHolder, property: KProperty<*>): T {
         if (listener == null && canWriteState) {
             setState(thisRef.get(property.key))
 
@@ -60,11 +57,7 @@ data class SharedPreferencesProperty<T : Any>(
         return state.value
     }
 
-    override fun setValue(
-        thisRef: PreferencesHolder,
-        property: KProperty<*>,
-        value: T,
-    ) = coroutineScope.launch {
+    override fun setValue(thisRef: PreferencesHolder, property: KProperty<*>, value: T) = coroutineScope.launch {
         thisRef.edit(commit = true) {
             set(property.key, value)
         }
@@ -78,65 +71,44 @@ data class SharedPreferencesProperty<T : Any>(
  * defaultValue until we are allowed to subscribe to SharedPreferences. Caution: the type of the
  * preference has to be [Stable], otherwise UB will occur.
  */
-open class PreferencesHolder(
-    application: Application,
-    name: String,
-    mode: Int = Context.MODE_PRIVATE,
-) : SharedPreferences by application.getSharedPreferences(name, mode) {
-    fun boolean(
-        defaultValue: Boolean,
-        name: String? = null,
-    ) = SharedPreferencesProperty(
+open class PreferencesHolder(application: Application, name: String, mode: Int = Context.MODE_PRIVATE) :
+    SharedPreferences by application.getSharedPreferences(name, mode) {
+    fun boolean(defaultValue: Boolean, name: String? = null) = SharedPreferencesProperty(
         get = { getBoolean(it, defaultValue) },
         set = { k, v -> putBoolean(k, v) },
         default = defaultValue,
         name = name,
     )
 
-    fun string(
-        defaultValue: String,
-        name: String? = null,
-    ) = SharedPreferencesProperty(
+    fun string(defaultValue: String, name: String? = null) = SharedPreferencesProperty(
         get = { getString(it, null) ?: defaultValue },
         set = { k, v -> putString(k, v) },
         default = defaultValue,
         name = name,
     )
 
-    fun int(
-        defaultValue: Int,
-        name: String? = null,
-    ) = SharedPreferencesProperty(
+    fun int(defaultValue: Int, name: String? = null) = SharedPreferencesProperty(
         get = { getInt(it, defaultValue) },
         set = { k, v -> putInt(k, v) },
         default = defaultValue,
         name = name,
     )
 
-    fun float(
-        defaultValue: Float,
-        name: String? = null,
-    ) = SharedPreferencesProperty(
+    fun float(defaultValue: Float, name: String? = null) = SharedPreferencesProperty(
         get = { getFloat(it, defaultValue) },
         set = { k, v -> putFloat(k, v) },
         default = defaultValue,
         name = name,
     )
 
-    fun long(
-        defaultValue: Long,
-        name: String? = null,
-    ) = SharedPreferencesProperty(
+    fun long(defaultValue: Long, name: String? = null) = SharedPreferencesProperty(
         get = { getLong(it, defaultValue) },
         set = { k, v -> putLong(k, v) },
         default = defaultValue,
         name = name,
     )
 
-    inline fun <reified T : Enum<T>> enum(
-        defaultValue: T,
-        name: String? = null,
-    ) = SharedPreferencesProperty(
+    inline fun <reified T : Enum<T>> enum(defaultValue: T, name: String? = null) = SharedPreferencesProperty(
         get = {
             getString(it, null)
                 ?.let { runCatching { enumValueOf<T>(it) }.getOrNull() }
@@ -147,10 +119,7 @@ open class PreferencesHolder(
         name = name,
     )
 
-    fun stringSet(
-        defaultValue: Set<String>,
-        name: String? = null,
-    ) = SharedPreferencesProperty(
+    fun stringSet(defaultValue: Set<String>, name: String? = null) = SharedPreferencesProperty(
         get = { getStringSet(it, null) ?: defaultValue },
         set = { k, v -> putStringSet(k, v) },
         default = defaultValue,

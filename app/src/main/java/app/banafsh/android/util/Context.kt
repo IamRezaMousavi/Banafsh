@@ -13,15 +13,12 @@ value class ToastDuration private constructor(internal val length: Int) {
     }
 }
 
-fun Context.toast(
-    message: String,
-    duration: ToastDuration = ToastDuration.Short,
-) = Toast.makeText(this, message, duration.length).show()
+fun Context.toast(message: String, duration: ToastDuration = ToastDuration.Short) =
+    Toast.makeText(this, message, duration.length).show()
 
 fun Context.hasPermissions(permissions: Array<String>) = permissions.all { permission -> hasPermission(permission) }
 
-fun Context.hasPermission(permission: String) =
-    ContextCompat.checkSelfPermission(
-        applicationContext,
-        permission,
-    ) == PackageManager.PERMISSION_GRANTED
+fun Context.hasPermission(permission: String) = ContextCompat.checkSelfPermission(
+    applicationContext,
+    permission,
+) == PackageManager.PERMISSION_GRANTED

@@ -23,27 +23,23 @@ import app.banafsh.android.ui.theme.Dimensions
 import coil.compose.AsyncImage
 
 @Composable
-fun SongItem(
-    song: Song,
-    modifier: Modifier = Modifier,
-    trailingContent: @Composable (() -> Unit)? = null,
-) = Row(
+fun SongItem(song: Song, modifier: Modifier = Modifier, trailingContent: @Composable (() -> Unit)? = null) = Row(
     verticalAlignment = Alignment.CenterVertically,
     horizontalArrangement = Arrangement.spacedBy(12.dp),
     modifier =
-        modifier
-            .padding(
-                vertical = Dimensions.items.verticalPadding,
-                horizontal = Dimensions.items.horizontalPadding,
-            )
-            .fillMaxWidth(),
+    modifier
+        .padding(
+            vertical = Dimensions.items.verticalPadding,
+            horizontal = Dimensions.items.horizontalPadding,
+        )
+        .fillMaxWidth(),
 ) {
     Box(
         modifier =
-            Modifier
-                .size(Dimensions.thumbnails.song)
-                .clip(MaterialTheme.shapes.extraSmall)
-                .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+        Modifier
+            .size(Dimensions.thumbnails.song)
+            .clip(MaterialTheme.shapes.extraSmall)
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh),
     ) {
         AsyncImage(
             model = song.thumbnailUrl,

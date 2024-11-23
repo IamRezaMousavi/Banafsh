@@ -11,10 +11,7 @@ import app.banafsh.android.ui.Screen
 import app.banafsh.android.ui.component.Scaffold
 
 @Composable
-fun HomeScreen(
-    navController: NavController,
-    modifier: Modifier = Modifier,
-) {
+fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
     Scaffold(
         topIconButtonId = R.drawable.settings,
         onTopIconButtonClick = {

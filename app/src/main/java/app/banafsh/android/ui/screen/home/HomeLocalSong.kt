@@ -9,19 +9,18 @@ import app.banafsh.android.db.Database
 import app.banafsh.android.preference.OrderPreferences
 
 @Composable
-fun HomeLocalSong() =
-    with(OrderPreferences) {
-        HomeSong(
-            songProvider = {
-                Database.songs(
-                    sortBy = songSortBy,
-                    sortOrder = songSortOrder,
-                )
-            },
-            sortBy = songSortBy,
-            setSortBy = { songSortBy = it },
-            sortOrder = songSortOrder,
-            setSortOrder = { songSortOrder = it },
-            title = stringResource(R.string.songs),
-        )
-    }
+fun HomeLocalSong() = with(OrderPreferences) {
+    HomeSong(
+        songProvider = {
+            Database.songs(
+                sortBy = songSortBy,
+                sortOrder = songSortOrder,
+            )
+        },
+        sortBy = songSortBy,
+        setSortBy = { songSortBy = it },
+        sortOrder = songSortOrder,
+        setSortOrder = { songSortOrder = it },
+        title = stringResource(R.string.songs),
+    )
+}

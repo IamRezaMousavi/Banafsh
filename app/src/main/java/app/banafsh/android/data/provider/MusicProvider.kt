@@ -17,6 +17,7 @@ import app.banafsh.android.data.model.Song
 import app.banafsh.android.db.Database
 import app.banafsh.android.db.transaction
 import app.banafsh.android.util.isAtLeastAndroid10
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +30,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
-import kotlin.time.Duration.Companion.seconds
 
 class AudioMediaCursor(cursor: Cursor) : CursorDao(cursor) {
     companion object : CursorDaoCompanion<AudioMediaCursor>() {
@@ -66,39 +66,38 @@ class AudioMediaCursor(cursor: Cursor) : CursorDao(cursor) {
 
 private val mediaScope = CoroutineScope(Dispatchers.IO + CoroutineName("MediaStore worker"))
 
-fun Context.musicFilesAsFlow(): StateFlow<List<Song>> =
-    flow {
-        var version: String? = null
+fun Context.musicFilesAsFlow(): StateFlow<List<Song>> = flow {
+    var version: String? = null
 
-        while (currentCoroutineContext().isActive) {
-            val newVersion = MediaStore.getVersion(applicationContext)
+    while (currentCoroutineContext().isActive) {
+        val newVersion = MediaStore.getVersion(applicationContext)
 
-            if (version != newVersion) {
-                version = newVersion
+        if (version != newVersion) {
+            version = newVersion
 
-                AudioMediaCursor.query(contentResolver) {
-                    buildList {
-                        while (next()) {
-                            if (!isMusic || duration == 0) continue
-                            add(
-                                Song(
-                                    id = id.toString(),
-                                    title = title,
-                                    artist = artist,
-                                    duration = duration,
-                                    dateModified = dateModified,
-                                    thumbnailUrl = albumUri.toString(),
-                                    path = path,
-                                ),
-                            )
-                        }
+            AudioMediaCursor.query(contentResolver) {
+                buildList {
+                    while (next()) {
+                        if (!isMusic || duration == 0) continue
+                        add(
+                            Song(
+                                id = id.toString(),
+                                title = title,
+                                artist = artist,
+                                duration = duration,
+                                dateModified = dateModified,
+                                thumbnailUrl = albumUri.toString(),
+                                path = path,
+                            ),
+                        )
                     }
-                }?.let { emit(it) }
-            }
-            delay(5.seconds)
+                }
+            }?.let { emit(it) }
         }
-    }.distinctUntilChanged()
-        .onEach { songs ->
-            transaction { songs.forEach(Database::insert) }
-        }
-        .stateIn(mediaScope, SharingStarted.Eagerly, listOf())
+        delay(5.seconds)
+    }
+}.distinctUntilChanged()
+    .onEach { songs ->
+        transaction { songs.forEach(Database::insert) }
+    }
+    .stateIn(mediaScope, SharingStarted.Eagerly, listOf())

@@ -1,0 +1,12 @@
+[*.{kt,kts}]
+indent_size = 4
+max_line_length = 120
+ktlint_code_style = android_studio
+ktlint_experimental = enabled
+
+ktlint_function_naming_ignore_when_annotated_with = Composable
+ktlint_standard_comment-wrapping = disabled # Because argument names in comment are a thing: Java API's do not support named arguments
+ktlint_standard_multiline-if-else = disabled
+
+ij_kotlin_allow_trailing_comma_on_call_site = true
+ij_kotlin_allow_trailing_comma = true

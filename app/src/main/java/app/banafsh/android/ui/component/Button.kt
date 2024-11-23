@@ -33,12 +33,12 @@ fun TextButton(
     style = MaterialTheme.typography.labelMedium,
     color = if (primary) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
     modifier =
-        modifier
-            .clip(MaterialTheme.shapes.extraLarge)
-            .background(if (primary) MaterialTheme.colorScheme.primary else Color.Transparent)
-            .clickable(enabled = enabled, onClick = onClick)
-            .padding(all = 8.dp)
-            .padding(horizontal = 8.dp),
+    modifier
+        .clip(MaterialTheme.shapes.extraLarge)
+        .background(if (primary) MaterialTheme.colorScheme.primary else Color.Transparent)
+        .clickable(enabled = enabled, onClick = onClick)
+        .padding(all = 8.dp)
+        .padding(horizontal = 8.dp),
 )
 
 @Composable
@@ -55,14 +55,14 @@ fun IconButton(
         contentDescription = null,
         colorFilter = ColorFilter.tint(color),
         modifier =
-            Modifier
-                .clickable(
-                    indication = indication,
-                    interactionSource = remember { MutableInteractionSource() },
-                    enabled = enabled,
-                    onClick = onClick,
-                )
-                .then(modifier),
+        Modifier
+            .clickable(
+                indication = indication,
+                interactionSource = remember { MutableInteractionSource() },
+                enabled = enabled,
+                onClick = onClick,
+            )
+            .then(modifier),
     )
 }
 
@@ -83,8 +83,8 @@ fun HeaderIconButton(
         enabled = true,
         color = color,
         modifier =
-            modifier
-                .padding(all = 4.dp)
-                .size(18.dp),
+        modifier
+            .padding(all = 4.dp)
+            .size(18.dp),
     )
 }

@@ -53,34 +53,34 @@ inline fun NavigationRail(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier =
-            modifier
-                .verticalScroll(rememberScrollState())
-                .padding(paddingValues)
-                .fillMaxHeight(),
+        modifier
+            .verticalScroll(rememberScrollState())
+            .padding(paddingValues)
+            .fillMaxHeight(),
     ) {
         Box(
             contentAlignment = Alignment.TopCenter,
             modifier =
-                Modifier
-                    .size(
-                        width = Dimensions.navigationRail.width,
-                        height = Dimensions.items.headerHeight,
-                    ),
+            Modifier
+                .size(
+                    width = Dimensions.navigationRail.width,
+                    height = Dimensions.items.headerHeight,
+                ),
         ) {
             Image(
                 painter = painterResource(topIconButtonId),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary),
                 modifier =
-                    Modifier
-                        .offset(
-                            x = Dimensions.navigationRail.iconOffset,
-                            y = 48.dp,
-                        )
-                        .clip(CircleShape)
-                        .clickable(onClick = onTopIconButtonClick)
-                        .padding(all = 12.dp)
-                        .size(22.dp),
+                Modifier
+                    .offset(
+                        x = Dimensions.navigationRail.iconOffset,
+                        y = 48.dp,
+                    )
+                    .clip(CircleShape)
+                    .clickable(onClick = onTopIconButtonClick)
+                    .padding(all = 12.dp)
+                    .size(22.dp),
             )
         }
 
@@ -116,24 +116,24 @@ inline fun NavigationRail(
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
                         modifier =
-                            Modifier
-                                .vertical(true)
-                                .graphicsLayer {
-                                    alpha = dothAlpha
-                                    translationX = (1f - dothAlpha) * -48.dp.toPx()
-                                    rotationZ = -90f
-                                }
-                                .size(6.dp * 2),
+                        Modifier
+                            .vertical(true)
+                            .graphicsLayer {
+                                alpha = dothAlpha
+                                translationX = (1f - dothAlpha) * -48.dp.toPx()
+                                rotationZ = -90f
+                            }
+                            .size(6.dp * 2),
                     )
                     Text(
                         text = text,
                         style = MaterialTheme.typography.titleMedium,
                         color = textColor,
                         modifier =
-                            Modifier
-                                .vertical(true)
-                                .rotate(-90f)
-                                .padding(horizontal = 16.dp),
+                        Modifier
+                            .vertical(true)
+                            .rotate(-90f)
+                            .padding(horizontal = 16.dp),
                     )
                 }
             }
@@ -141,17 +141,16 @@ inline fun NavigationRail(
     }
 }
 
-fun Modifier.vertical(enabled: Boolean = true) =
-    if (enabled) {
-        layout { measurable, constraints ->
-            val placeable = measurable.measure(constraints.copy(maxWidth = Int.MAX_VALUE))
-            layout(placeable.height, placeable.width) {
-                placeable.place(
-                    x = -(placeable.width / 2 - placeable.height / 2),
-                    y = -(placeable.height / 2 - placeable.width / 2),
-                )
-            }
+fun Modifier.vertical(enabled: Boolean = true) = if (enabled) {
+    layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints.copy(maxWidth = Int.MAX_VALUE))
+        layout(placeable.height, placeable.width) {
+            placeable.place(
+                x = -(placeable.width / 2 - placeable.height / 2),
+                y = -(placeable.height / 2 - placeable.width / 2),
+            )
         }
-    } else {
-        this
     }
+} else {
+    this
+}

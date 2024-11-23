@@ -21,7 +21,7 @@ import kotlinx.coroutines.withContext
 fun BanafshTheme(
     isSystemInDarkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    /* dynamicColor: Boolean = true, */
     content: @Composable () -> Unit,
 ) = with(AppearancePreferences) {
     val isDark = colorMode == ColorMode.Dark || (colorMode == ColorMode.System && isSystemInDarkTheme)
@@ -31,11 +31,11 @@ fun BanafshTheme(
 
     MaterialTheme(
         colorScheme =
-            SchemeTonalSpot(
-                Hct.fromInt(baseColor.toArgb()),
-                isDark,
-                0.0,
-            ).toColorScheme(),
+        SchemeTonalSpot(
+            Hct.fromInt(baseColor.toArgb()),
+            isDark,
+            0.0,
+        ).toColorScheme(),
         typography = Typography,
         content = content,
     )
@@ -54,9 +54,8 @@ fun Activity.setSystemBarAppearance(isDark: Boolean) {
 }
 
 @Composable
-fun Activity.SystemBarAppearance(isDark: Boolean) =
-    LaunchedEffect(isDark) {
-        withContext(Dispatchers.Main) {
-            setSystemBarAppearance(isDark)
-        }
+fun Activity.SystemBarAppearance(isDark: Boolean) = LaunchedEffect(isDark) {
+    withContext(Dispatchers.Main) {
+        setSystemBarAppearance(isDark)
     }
+}
