@@ -74,6 +74,7 @@ dependencies {
 
     implementation(libs.exoplayer)
     implementation(libs.media3.session)
+    implementation(libs.media3.ui)
 
     implementation(libs.kotlin.immutable)
 
