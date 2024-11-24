@@ -41,12 +41,14 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.banafsh.android.data.provider.musicFilesAsFlow
+import app.banafsh.android.service.PlayerService
 import app.banafsh.android.ui.NavigationStack
 import app.banafsh.android.ui.component.TextButton
 import app.banafsh.android.ui.theme.BanafshTheme
 import app.banafsh.android.util.hasPermissions
 import app.banafsh.android.util.isAtLeastAndroid10
 import app.banafsh.android.util.isAtLeastAndroid13
+import app.banafsh.android.util.isAtLeastAndroid8
 import app.banafsh.android.util.isCompositionLaunched
 import kotlinx.coroutines.flow.collect
 
@@ -70,6 +72,19 @@ val LocalPlayerAwareWindowInsets =
     compositionLocalOf<WindowInsets> { error("No player insets provided") }
 
 class MainActivity : ComponentActivity() {
+    var isServiceRunning = false
+    private fun startService() {
+        if (!isServiceRunning) {
+            val intent = Intent(this, PlayerService::class.java)
+            if (isAtLeastAndroid8) {
+                startForegroundService(intent)
+            } else {
+                startService(intent)
+            }
+            isServiceRunning = true
+        }
+    }
+
     @OptIn(ExperimentalLayoutApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
