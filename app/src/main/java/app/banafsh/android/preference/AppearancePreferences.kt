@@ -10,4 +10,6 @@ object AppearancePreferences : GlobalPreferencesHolder() {
     var colorMode by enum(ColorMode.System)
     var darkness by enum(Darkness.Normal)
     var swipeToHideSong by boolean(false)
+    var isShowingThumbnailInLockscreen by boolean(true)
+    var maxThumbnailSize by int(1920)
 }

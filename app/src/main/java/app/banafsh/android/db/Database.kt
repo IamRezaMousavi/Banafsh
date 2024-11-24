@@ -12,6 +12,8 @@ import androidx.room.Transaction
 import app.banafsh.android.Dependencies
 import app.banafsh.android.data.enums.SongSortBy
 import app.banafsh.android.data.enums.SortOrder
+import app.banafsh.android.data.model.Event
+import app.banafsh.android.data.model.QueuedSong
 import app.banafsh.android.data.model.Song
 import kotlinx.coroutines.flow.Flow
 
@@ -69,8 +71,40 @@ interface Database {
             }
     }
 
+    @Transaction
+    @Query("SELECT * FROM Song WHERE id IN (:songIds)")
+    @RewriteQueriesToDropUnusedColumns
+    fun songs(songIds: List<String>): List<Song>
+
+    @Query("UPDATE Song SET likedAt = :likedAt WHERE id = :songId")
+    fun like(songId: String, likedAt: Long?): Int
+
+    @Query("SELECT likedAt FROM Song WHERE id = :songId")
+    fun likedAt(songId: String): Flow<Long?>
+
+    @Query("UPDATE Song SET totalPlayTimeMs = totalPlayTimeMs + :addition WHERE id = :id")
+    fun incrementTotalPlayTimeMs(id: String, addition: Long)
+
+    @Query("SELECT COUNT (*) FROM Event")
+    fun eventsCount(): Flow<Int>
+
+    @Query("DELETE FROM Event")
+    fun clearEvents()
+
+    @Query("SELECT * FROM QueuedSong")
+    fun queue(): List<QueuedSong>
+
+    @Query("DELETE FROM QueuedSong")
+    fun clearQueue()
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(song: Song): Long
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(event: Event)
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    fun insert(queuedSongs: List<QueuedSong>)
 
     @Delete
     fun delete(song: Song)
@@ -79,6 +113,8 @@ interface Database {
 @androidx.room.Database(
     entities = [
         Song::class,
+        Event::class,
+        QueuedSong::class,
     ],
     version = 1,
 )
