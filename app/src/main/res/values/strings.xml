@@ -52,6 +52,17 @@
     <string name="unknown">Unknown</string>
     <string name="now_playing">Now playing</string>
 
+    <string name="seek_bar_style">Seek bar style</string>
+    <string name="static_seek_bar_name">Static</string>
+    <string name="wavy_seek_bar_name">Wavy</string>
+    <string name="seek_bar_quality">Wavy seek bar quality</string>
+    <string name="seek_bar_quality_poor">Poor</string>
+    <string name="seek_bar_quality_low">Low</string>
+    <string name="seek_bar_quality_medium">Medium</string>
+    <string name="seek_bar_quality_high">High</string>
+    <string name="seek_bar_quality_great">Great</string>
+    <string name="seek_bar_quality_subpixel">Subpixel</string>
+
     <string name="skip_on_error">Autoskip</string>
     <string name="skip_on_error_description">Skips the current song when there is an error.</string>
     <string name="skip_on_error_notification">Skipped %s because of an error</string>

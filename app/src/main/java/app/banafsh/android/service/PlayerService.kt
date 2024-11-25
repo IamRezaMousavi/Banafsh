@@ -519,7 +519,12 @@ class PlayerService :
 
             val mediaItems = queue
                 .map { Database.songs(listOf(it.songId)).first() }
-                .map { it.asMediaItem }
+                .map {
+                    it.asMediaItem
+                        .apply {
+                            mediaMetadata.extras?.putBoolean("isFromPersistentQueue", true)
+                        }
+                }
 
             handler.post {
                 runCatching {
