@@ -4,6 +4,7 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -22,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import app.banafsh.android.LocalPlayerAwareWindowInsets
+import app.banafsh.android.LocalPlayerServiceBinder
 import app.banafsh.android.R
 import app.banafsh.android.data.enums.SongSortBy
 import app.banafsh.android.data.enums.SortOrder
@@ -30,6 +32,8 @@ import app.banafsh.android.preference.OrderPreferences.songSortOrder
 import app.banafsh.android.ui.component.Header
 import app.banafsh.android.ui.component.HeaderIconButton
 import app.banafsh.android.ui.item.SongItem
+import app.banafsh.android.util.asMediaItem
+import app.banafsh.android.util.forcePlayAtIndex
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 
@@ -43,6 +47,7 @@ fun HomeSong(
     title: String,
     modifier: Modifier = Modifier,
 ) {
+    val binder = LocalPlayerServiceBinder.current
     var songs by remember { mutableStateOf(emptyList<Song>()) }
 
     LaunchedEffect(sortBy, sortOrder, songProvider) {
@@ -100,7 +105,16 @@ fun HomeSong(
                 }
             }
             items(songs, key = { song -> song.id }) { song ->
-                SongItem(song)
+                SongItem(
+                    song,
+                    modifier = Modifier.clickable {
+                        binder?.player?.forcePlayAtIndex(
+                            songs.map(Song::asMediaItem),
+                            songs.indexOf(song),
+                        )
+                        binder?.player?.play()
+                    },
+                )
             }
         }
     }

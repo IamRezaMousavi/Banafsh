@@ -27,4 +27,47 @@
 
     <string name="media_permission_declined">Permission declined, please grant media permissions in the settings of your device.</string>
     <string name="open_settings">Open settings</string>
+
+    <string name="skip_back">Skip back</string>
+    <string name="skip_forward">Skip forward</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="like">Like</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="sync">Sync</string>
+    <string name="start_radio">Start radio</string>
+    <string name="play_next">Play next</string>
+    <string name="enqueue">Enqueue</string>
+
+    <string name="sleep_timer">Sleep timer</string>
+    <string name="sleep_timer_ended">Sleep timer ended</string>
+    <string name="sleep_timer_until_song_end">Until song ends</string>
+    <string name="stop_sleep_timer_prompt">Do you want to stop the sleep timer?</string>
+    <string name="equalizer">Equalizer</string>
+    <string name="set_sleep_timer">Set sleep timer</string>
+
+    <string name="on_label">on</string>
+    <string name="off_label">off</string>
+    <string name="off_text">Off</string>
+    <string name="unknown">Unknown</string>
+    <string name="now_playing">Now playing</string>
+
+    <string name="skip_on_error">Autoskip</string>
+    <string name="skip_on_error_description">Skips the current song when there is an error.</string>
+    <string name="skip_on_error_notification">Skipped %s because of an error</string>
+    <string name="skip_on_error_notification_unknown_song">Skipped the current song because of an error</string>
+
+    <string name="error_message">An error has occurred</string>
+    <string name="error_local_music_deleted">This local music file does not exist anymore</string>
+    <string name="error_network">A network error has occurred</string>
+    <string name="error_unplayable">Couldn\'t find a playable audio format</string>
+    <string name="error_source_deleted">The original video source of this song has been deleted</string>
+    <string name="error_server_restrictions">This song cannot be played due to server restrictions</string>
+    <string name="error_id_mismatch">The returned video id doesn\'t match the requested one</string>
+    <string name="error_unknown_playback">An unknown playback error has occurred</string>
+    <string name="error_piped_link">There was an unknown error linking your Piped account. Please try again.</string>
+    <string name="error_piped_instances_unavailable">Piped instance list currently unavailable</string>
+    <string name="error_bassboost_init">There was an error initializing Bass Boost. Probably your device doesn\'t support it. Try changing the bass boost level or try again.</string>
+    <string name="error_pre_cache">An unknown error occurred during pre-caching. Please try again.</string>
+    <string name="error_url">Can\'t open url %1$s</string>
 </resources>

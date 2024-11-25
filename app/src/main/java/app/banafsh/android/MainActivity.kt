@@ -1,15 +1,20 @@
 package app.banafsh.android
 
 import android.Manifest
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
 import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,17 +39,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import app.banafsh.android.data.provider.musicFilesAsFlow
+import app.banafsh.android.service.PlayerService
 import app.banafsh.android.ui.NavigationStack
 import app.banafsh.android.ui.component.TextButton
 import app.banafsh.android.ui.theme.BanafshTheme
 import app.banafsh.android.util.hasPermissions
+import app.banafsh.android.util.intent
 import app.banafsh.android.util.isAtLeastAndroid10
 import app.banafsh.android.util.isAtLeastAndroid13
 import app.banafsh.android.util.isCompositionLaunched
@@ -68,8 +77,33 @@ val permissions =
 
 val LocalPlayerAwareWindowInsets =
     compositionLocalOf<WindowInsets> { error("No player insets provided") }
+val LocalPlayerServiceBinder = staticCompositionLocalOf<PlayerService.Binder?> { null }
+
+class MainViewModel : ViewModel() {
+    var binder: PlayerService.Binder? by mutableStateOf(null)
+}
 
 class MainActivity : ComponentActivity() {
+    private val vm: MainViewModel by viewModels()
+
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            if (service is PlayerService.Binder) vm.binder = service
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            vm.binder = null
+            // Try to rebind, otherwise fail
+            unbindService(this)
+            bindService(intent<PlayerService>(), this, Context.BIND_AUTO_CREATE)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        bindService(intent<PlayerService>(), serviceConnection, Context.BIND_AUTO_CREATE)
+    }
+
     @OptIn(ExperimentalLayoutApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,6 +135,7 @@ class MainActivity : ComponentActivity() {
 
                 CompositionLocalProvider(
                     LocalPlayerAwareWindowInsets provides playerAwareWindowInsets,
+                    LocalPlayerServiceBinder provides vm.binder,
                 ) {
                     val context = LocalContext.current
 
@@ -149,5 +184,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        unbindService(serviceConnection)
+        super.onStop()
     }
 }

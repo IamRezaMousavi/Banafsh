@@ -11,6 +11,7 @@ data class Song(
     val artist: String? = null,
     val duration: Int? = null,
     val dateModified: Long? = null,
+    val likedAt: Long? = null,
     val totalPlayTimeMs: Long? = null,
     val thumbnailUrl: String? = null,
     val path: String? = null,
