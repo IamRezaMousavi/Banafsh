@@ -1,11 +1,16 @@
 package app.banafsh.android.ui.screen.player
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +28,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.Player
 import app.banafsh.android.R
 import app.banafsh.android.data.model.Song
 import app.banafsh.android.data.model.ui.UiMedia
@@ -34,6 +41,7 @@ import app.banafsh.android.service.PlayerService
 import app.banafsh.android.ui.component.FadingRow
 import app.banafsh.android.ui.component.IconButton
 import app.banafsh.android.ui.component.SeekBar
+import app.banafsh.android.ui.theme.util.roundedShape
 import app.banafsh.android.util.forceSeekToNext
 import app.banafsh.android.util.forceSeekToPrevious
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -58,6 +66,12 @@ fun Controls(
     val shouldBePlayingTransition = updateTransition(
         targetState = shouldBePlaying,
         label = "shouldBePlaying",
+    )
+
+    val playButtonRadius by shouldBePlayingTransition.animateDp(
+        transitionSpec = { tween(durationMillis = 100, easing = LinearEasing) },
+        label = "playPauseRoundness",
+        targetValueByState = { if (it) 16.dp else 32.dp },
     )
 
     Column(
@@ -164,6 +178,27 @@ fun Controls(
 
             Spacer(modifier = Modifier.width(8.dp))
 
+            Box(
+                modifier = Modifier
+                    .clip(playButtonRadius.roundedShape)
+                    .clickable {
+                        if (shouldBePlaying) binder.player.pause()
+                        else {
+                            if (binder.player.playbackState == Player.STATE_IDLE) binder.player.prepare()
+                            binder.player.play()
+                        }
+                    }
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .size(64.dp),
+            ) {
+                AnimatedPlayPauseButton(
+                    playing = shouldBePlaying,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .size(32.dp),
+                )
+            }
+
             Spacer(modifier = Modifier.width(8.dp))
 
             IconButton(
@@ -184,5 +219,7 @@ fun Controls(
                     .size(24.dp),
             )
         }
+
+        Spacer(modifier = Modifier.weight(1f))
     }
 }

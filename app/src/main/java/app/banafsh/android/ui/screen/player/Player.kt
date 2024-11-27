@@ -219,13 +219,13 @@ fun Player(layoutState: BottomSheetState, modifier: Modifier = Modifier) = with(
                             )
                             .clip(CircleShape),
                     ) {
-//                        AnimatedPlayPauseButton(
-//                            playing = shouldBePlaying,
-//                            modifier = Modifier
-//                                .align(Alignment.Center)
-//                                .padding(horizontal = 4.dp, vertical = 8.dp)
-//                                .size(23.dp)
-//                        )
+                        AnimatedPlayPauseButton(
+                            playing = shouldBePlaying,
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .padding(horizontal = 4.dp, vertical = 8.dp)
+                                .size(23.dp),
+                        )
                     }
 
                     IconButton(
