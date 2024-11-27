@@ -1,5 +1,6 @@
 package app.banafsh.android.db
 
+import androidx.media3.common.MediaItem
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -15,6 +16,7 @@ import app.banafsh.android.data.enums.SortOrder
 import app.banafsh.android.data.model.Event
 import app.banafsh.android.data.model.QueuedSong
 import app.banafsh.android.data.model.Song
+import app.banafsh.android.util.toSong
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -105,6 +107,13 @@ interface Database {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(queuedSongs: List<QueuedSong>)
+
+    @Transaction
+    fun insert(mediaItem: MediaItem, block: (Song) -> Song) {
+        mediaItem.toSong().let(block).also { song ->
+            if (insert(song) == -1L) return
+        }
+    }
 
     @Delete
     fun delete(song: Song)

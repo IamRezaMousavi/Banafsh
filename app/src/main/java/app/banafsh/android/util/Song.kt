@@ -30,3 +30,11 @@ val Song.asMediaItem: MediaItem
         .setMediaId(id)
         .setUri(getUri())
         .build()
+
+fun MediaItem.toSong(): Song = Song(
+    id = mediaId,
+    title = mediaMetadata.title?.toString().orEmpty(),
+    artist = mediaMetadata.artist?.toString(),
+    duration = mediaMetadata.extras?.getInt("duration"),
+    thumbnailUrl = mediaMetadata.artworkUri?.toString(),
+)
