@@ -1,7 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":material-color-utilities")
-
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -28,3 +26,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Banafsh"
 include(":app")
+include(":material-color-utilities")

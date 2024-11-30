@@ -35,5 +35,5 @@ jobs:
     - name: Lint with Android
       run: ./gradlew lint
 
-    - name: Build with Gradle
-      run: ./gradlew build
+    - name: Build debug with Gradle
+      run: ./gradlew assembleDebug

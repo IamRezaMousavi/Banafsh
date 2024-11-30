@@ -1,8 +1,8 @@
 [versions]
 agp = "8.7.2"
 annotation = "1.9.1"
-kotlin = "2.0.20"
-ksp = "2.0.20-1.0.25"
+kotlin = "2.1.0"
+ksp = "2.1.0-1.0.29"
 
 coreKtx = "1.15.0"
 composeBom = "2024.11.00"
@@ -14,7 +14,7 @@ composeCoil = "2.7.0"
 composeLottie = "6.5.2"
 
 room = "2.6.1"
-media3 = "1.4.1"
+media3 = "1.5.0"
 
 kotlinImmutable = "0.3.8"
 
