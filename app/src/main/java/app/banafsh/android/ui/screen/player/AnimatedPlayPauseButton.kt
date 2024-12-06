@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
@@ -19,20 +18,16 @@ import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
 
 @Composable
-fun AnimatedPlayPauseButton(
-    playing: Boolean,
-    modifier: Modifier = Modifier,
-    tint: Color = MaterialTheme.colorScheme.onPrimaryContainer,
-) {
+fun AnimatedPlayPauseButton(playing: Boolean, modifier: Modifier = Modifier) {
+    val themeColor = MaterialTheme.colorScheme.onPrimaryContainer
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.play_pause))
 
-    val colorFilter = remember(tint) {
+    val colorFilter = remember(themeColor) {
         BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-            /* color = */ tint.toArgb(),
+            /* color = */ themeColor.toArgb(),
             /* blendModeCompat = */ BlendModeCompat.SRC_ATOP,
         )
     }
-
     val dynamicProperties = rememberLottieDynamicProperties(
         rememberLottieDynamicProperty(
             property = LottieProperty.COLOR_FILTER,

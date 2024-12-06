@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,6 +9,10 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
 }
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     namespace = "app.banafsh.android"
@@ -21,6 +28,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -29,6 +45,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -78,10 +95,13 @@ dependencies {
 
     implementation(libs.kotlin.immutable)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+    implementation(libs.palette)
+    implementation(libs.palette.ktx)
 
     coreLibraryDesugaring(libs.desugaring)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
 
     implementation(projects.materialColorUtilities)
 

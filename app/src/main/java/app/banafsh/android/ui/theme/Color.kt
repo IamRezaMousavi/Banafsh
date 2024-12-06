@@ -1,6 +1,9 @@
 package app.banafsh.android.ui.theme
 
 import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import com.google.material_color_utilities.scheme.SchemeTonalSpot
 
@@ -12,7 +15,7 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val baseColor = Color(0xFFB33B15)
+var baseColor by mutableStateOf(Color(0xFFB33B15))
 
 val ColorScheme.disable
     get() = outline.copy(alpha = 0.38f)

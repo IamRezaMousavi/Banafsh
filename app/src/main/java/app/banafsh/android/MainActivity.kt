@@ -41,9 +41,10 @@ import app.banafsh.android.service.PlayerService
 import app.banafsh.android.ui.NavigationStack
 import app.banafsh.android.ui.component.rememberBottomSheetState
 import app.banafsh.android.ui.screen.player.Player
-import app.banafsh.android.ui.theme.BanafshTheme
+import app.banafsh.android.ui.theme.AppTheme
 import app.banafsh.android.ui.theme.Dimensions
 import app.banafsh.android.util.DisposableListener
+import app.banafsh.android.util.collectProvidedBitmapAsState
 import app.banafsh.android.util.intent
 import app.banafsh.android.util.isAtLeastAndroid10
 import app.banafsh.android.util.isAtLeastAndroid13
@@ -97,7 +98,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BanafshTheme {
+            val sampleBitmap by vm.binder.collectProvidedBitmapAsState()
+            AppTheme(sampleBitmap = sampleBitmap) {
                 BoxWithConstraints(
                     modifier = Modifier
                         .fillMaxSize()
