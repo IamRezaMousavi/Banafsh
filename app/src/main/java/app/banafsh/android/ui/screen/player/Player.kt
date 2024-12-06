@@ -265,14 +265,13 @@ fun Player(layoutState: BottomSheetState, modifier: Modifier = Modifier) = with(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = containerModifier
-                .fillMaxSize()
-                .padding(10.dp),
+                .padding(20.dp),
         ) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.weight(1.25f),
             ) {
-                Thumbnail(Modifier.padding(horizontal = 32.dp, vertical = 4.dp))
+                Thumbnail(Modifier.padding(horizontal = 32.dp, vertical = 8.dp))
             }
 
             val (position, duration) = positionAndDuration
