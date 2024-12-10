@@ -19,17 +19,15 @@ import com.google.material_color_utilities.scheme.SchemeTonalSpot
 
 @Composable
 fun AppTheme(
-    bitmap: Bitmap?,
+    sampleBitmap: Bitmap?,
     isSystemInDarkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    /* dynamicColor: Boolean = true, */
     content: @Composable () -> Unit,
 ) = with(AppearancePreferences) {
     val isDark = colorMode == ColorMode.Dark || (colorMode == ColorMode.System && isSystemInDarkTheme)
 
     val context = LocalContext.current as ComponentActivity
 
-    val colorScheme = remember(bitmap, colorSource) {
+    val colorScheme = remember(sampleBitmap, colorSource) {
         when {
             colorSource == ColorSource.Default -> SchemeTonalSpot(
                 Hct.fromInt(baseColor.toArgb()),
@@ -37,7 +35,7 @@ fun AppTheme(
                 0.0,
             ).toColorScheme()
 
-            bitmap == null -> SchemeTonalSpot(
+            sampleBitmap == null -> SchemeTonalSpot(
                 Hct.fromInt(baseColor.toArgb()),
                 isDark,
                 0.0,
@@ -45,7 +43,7 @@ fun AppTheme(
 
             else -> {
                 val paletteColor = Palette
-                    .from(bitmap)
+                    .from(sampleBitmap)
                     .maximumColorCount(8)
                     .generate()
                     .getDominantColor(baseColor.toArgb())

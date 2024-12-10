@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val sampleBitmap by vm.binder.collectProvidedBitmapAsState()
-            AppTheme(bitmap = sampleBitmap) {
+            AppTheme(sampleBitmap = sampleBitmap) {
                 BoxWithConstraints(
                     modifier = Modifier
                         .fillMaxSize()
