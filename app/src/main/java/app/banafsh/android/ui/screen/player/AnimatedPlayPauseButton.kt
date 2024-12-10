@@ -3,12 +3,10 @@ package app.banafsh.android.ui.screen.player
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import app.banafsh.android.R
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.compose.LottieAnimation
@@ -26,17 +24,12 @@ fun AnimatedPlayPauseButton(
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.play_pause))
 
-    val colorFilter = remember(tint) {
-        BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-            /* color = */ tint.toArgb(),
-            /* blendModeCompat = */ BlendModeCompat.SRC_ATOP,
-        )
-    }
+    val currentTint by rememberUpdatedState(tint)
 
     val dynamicProperties = rememberLottieDynamicProperties(
         rememberLottieDynamicProperty(
-            property = LottieProperty.COLOR_FILTER,
-            value = colorFilter,
+            property = LottieProperty.COLOR,
+            value = currentTint.toArgb(),
             keyPath = arrayOf("**"),
         ),
     )

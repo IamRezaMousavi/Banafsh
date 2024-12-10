@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import app.banafsh.android.R
 import app.banafsh.android.preference.AppearancePreferences
+import app.banafsh.android.preference.PlayerPreferences
 import app.banafsh.android.ui.theme.ColorMode
 import app.banafsh.android.ui.theme.ColorSource
 import app.banafsh.android.ui.theme.Darkness
@@ -43,6 +44,27 @@ fun AppearanceSettings() = with(AppearancePreferences) {
                 isChecked = swipeToHideSong,
                 onCheckedChange = { swipeToHideSong = it },
             )
+        }
+
+        SettingsGroup(title = stringResource(R.string.player)) {
+            EnumValueSelectorSettingsEntry(
+                title = stringResource(R.string.seek_bar_style),
+                selectedValue = PlayerPreferences.seekBarStyle,
+                onValueSelect = { PlayerPreferences.seekBarStyle = it },
+                valueText = { it.displayName() },
+            )
+
+            AnimatedVisibility(
+                visible = PlayerPreferences.seekBarStyle == PlayerPreferences.SeekBarStyle.Wavy,
+                label = "",
+            ) {
+                EnumValueSelectorSettingsEntry(
+                    title = stringResource(R.string.seek_bar_quality),
+                    selectedValue = PlayerPreferences.wavySeekBarQuality,
+                    onValueSelect = { PlayerPreferences.wavySeekBarQuality = it },
+                    valueText = { it.displayName() },
+                )
+            }
         }
     }
 }
