@@ -98,13 +98,12 @@ dependencies {
 
     implementation(libs.kotlin.immutable)
 
-    implementation(libs.palette)
     implementation(libs.palette.ktx)
-
-    coreLibraryDesugaring(libs.desugaring)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+
+    coreLibraryDesugaring(libs.desugaring)
 
     implementation(projects.materialColorUtilities)
 

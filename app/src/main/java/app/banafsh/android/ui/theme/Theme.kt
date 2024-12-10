@@ -8,6 +8,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -26,14 +27,34 @@ fun AppTheme(
 
     val context = LocalContext.current as ComponentActivity
 
-    if (sampleBitmap != null) {
-        Palette
-            .from(sampleBitmap)
-            .generate { palette ->
-                palette?.dominantSwatch?.rgb?.let {
-                    baseColor = Color((0xFF shl 24) or it)
-                }
+    val colorScheme = remember(sampleBitmap, colorSource) {
+        when {
+            colorSource == ColorSource.Default -> SchemeTonalSpot(
+                Hct.fromInt(baseColor.toArgb()),
+                isDark,
+                0.0,
+            ).toColorScheme()
+
+            sampleBitmap == null -> SchemeTonalSpot(
+                Hct.fromInt(baseColor.toArgb()),
+                isDark,
+                0.0,
+            ).toColorScheme()
+
+            else -> {
+                val paletteColor = Palette
+                    .from(sampleBitmap)
+                    .maximumColorCount(8)
+                    .generate()
+                    .getDominantColor(baseColor.toArgb())
+
+                SchemeTonalSpot(
+                    Hct.fromInt(paletteColor),
+                    isDark,
+                    0.0,
+                ).toColorScheme()
             }
+        }
     }
 
     DisposableEffect(isDark) {
@@ -62,12 +83,7 @@ fun AppTheme(
     }
 
     MaterialTheme(
-        colorScheme =
-        SchemeTonalSpot(
-            Hct.fromInt(baseColor.toArgb()),
-            isDark,
-            0.0,
-        ).toColorScheme(),
+        colorScheme = colorScheme,
         typography = Typography,
         content = content,
     )
