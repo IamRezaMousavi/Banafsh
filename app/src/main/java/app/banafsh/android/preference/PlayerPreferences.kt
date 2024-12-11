@@ -18,6 +18,8 @@ object PlayerPreferences : GlobalPreferencesHolder() {
     val skipSilenceProperty = boolean(false)
     var skipSilence by skipSilenceProperty
 
+    var shuffleEnabled by boolean(false)
+
     var skipOnError by boolean(false)
 
     val bassBoostProperty = boolean(false)

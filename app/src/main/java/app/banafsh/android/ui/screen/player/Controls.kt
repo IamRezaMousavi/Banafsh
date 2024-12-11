@@ -221,5 +221,14 @@ fun Controls(
         }
 
         Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(
+            icon = R.drawable.shuffle,
+            enabled = shuffleEnabled,
+            onClick = { shuffleEnabled = !shuffleEnabled },
+            modifier = Modifier
+                .weight(1f)
+                .size(24.dp),
+        )
     }
 }

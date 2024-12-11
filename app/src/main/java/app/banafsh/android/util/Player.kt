@@ -5,6 +5,8 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
+import app.banafsh.android.preference.PlayerPreferences
+import kotlin.random.Random
 import kotlin.time.Duration
 
 val Player.currentWindow: Timeline.Window?
@@ -42,10 +44,12 @@ fun Player.shuffleQueue() {
 }
 
 fun Player.randomPlayNext() {
-    val mediaItems = currentTimeline
-        .mediaItems
-        .toMutableList()
-        .apply { removeAt(currentMediaItemIndex) }
+    val mediaItems = currentTimeline.mediaItems
+    var nextIndex = Random.nextInt(mediaItems.size)
+    while (nextIndex == currentMediaItemIndex) {
+        nextIndex = Random.nextInt(mediaItems.size)
+    }
+    forcePlayAtIndex(mediaItems, nextIndex)
 }
 
 fun Player.forcePlay(mediaItem: MediaItem) {
@@ -70,7 +74,11 @@ fun Player.forceSeekToPrevious() = when {
     else -> {}
 }
 
-fun Player.forceSeekToNext() = if (hasNextMediaItem()) seekToNext() else seekTo(0, C.TIME_UNSET)
+fun Player.forceSeekToNext() = when {
+    PlayerPreferences.shuffleEnabled -> randomPlayNext()
+    hasNextMediaItem() -> seekToNext()
+    else -> seekTo(0, C.TIME_UNSET)
+}
 
 fun Player.addNext(mediaItem: MediaItem) = when (playbackState) {
     Player.STATE_IDLE, Player.STATE_ENDED -> forcePlay(mediaItem)
