@@ -41,6 +41,13 @@ fun Player.shuffleQueue() {
     addMediaItems(mediaItems)
 }
 
+fun Player.randomPlayNext() {
+    val mediaItems = currentTimeline
+        .mediaItems
+        .toMutableList()
+        .apply { removeAt(currentMediaItemIndex) }
+}
+
 fun Player.forcePlay(mediaItem: MediaItem) {
     setMediaItem(mediaItem, true)
     playWhenReady = true

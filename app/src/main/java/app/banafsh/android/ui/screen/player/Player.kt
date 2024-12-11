@@ -264,8 +264,7 @@ fun Player(layoutState: BottomSheetState, modifier: Modifier = Modifier) = with(
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = containerModifier
-                .padding(20.dp),
+            modifier = containerModifier,
         ) {
             Box(
                 contentAlignment = Alignment.Center,

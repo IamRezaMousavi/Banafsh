@@ -3,6 +3,7 @@ package app.banafsh.android.ui.screen.settings
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import app.banafsh.android.R
 import app.banafsh.android.preference.AppearancePreferences
@@ -12,9 +13,9 @@ import app.banafsh.android.ui.theme.ColorSource
 import app.banafsh.android.ui.theme.Darkness
 
 @Composable
-fun AppearanceSettings() = with(AppearancePreferences) {
+fun AppearanceSettings(modifier: Modifier = Modifier) = with(AppearancePreferences) {
     val isDark = isSystemInDarkTheme()
-    SettingsCategoryScreen(title = stringResource(R.string.appearance)) {
+    SettingsCategoryScreen(title = stringResource(R.string.appearance), modifier = modifier) {
         SettingsGroup(title = stringResource(R.string.colors)) {
             EnumValueSelectorSettingsEntry(
                 title = stringResource(R.string.color_source),

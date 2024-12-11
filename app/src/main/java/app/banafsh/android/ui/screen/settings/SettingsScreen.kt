@@ -16,21 +16,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import app.banafsh.android.LocalPlayerAwareWindowInsets
 import app.banafsh.android.R
 import app.banafsh.android.preference.UIStatePreferences
-import app.banafsh.android.ui.Screen
 import app.banafsh.android.ui.component.Header
 import app.banafsh.android.ui.component.Scaffold
 import app.banafsh.android.ui.component.Switch
@@ -40,21 +43,29 @@ import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) {
+    val saveableStateHolder = rememberSaveableStateHolder()
+
     Scaffold(
         topIconButtonId = R.drawable.chevron_back,
         onTopIconButtonClick = {
-            navController.navigate(route = Screen.Home.route)
+            navController.popBackStack()
         },
         tabIndex = UIStatePreferences.homeScreenTabIndex,
         onTabChange = { UIStatePreferences.homeScreenTabIndex = it },
         tabColumnContent = { item ->
-            item(0, "UI", R.drawable.color_palette)
-            item(1, "DB", R.drawable.server)
-            item(2, "About", R.drawable.information)
+            item(0, stringResource(R.string.appearance), R.drawable.color_palette)
+            item(1, stringResource(R.string.player), R.drawable.play)
+            item(2, stringResource(R.string.database), R.drawable.server)
+            item(3, stringResource(R.string.about), R.drawable.information)
         },
         modifier = modifier,
-    ) {
-        AppearanceSettings()
+    ) { currentTabIndex ->
+        saveableStateHolder.SaveableStateProvider(currentTabIndex) {
+            when (currentTabIndex) {
+                0 -> AppearanceSettings()
+                else -> PlayerSettings()
+            }
+        }
     }
 }
 
@@ -164,6 +175,16 @@ fun SettingsEntry(
 }
 
 @Composable
+fun SettingsDescription(text: String, modifier: Modifier = Modifier, important: Boolean = false) = Text(
+    text = text,
+    style = if (important) MaterialTheme.typography.titleSmall else MaterialTheme.typography.bodyMedium,
+    color = if (important) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.secondary,
+    modifier = modifier
+        .padding(start = 16.dp)
+        .padding(horizontal = 16.dp, vertical = 8.dp),
+)
+
+@Composable
 inline fun <reified T : Enum<T>> EnumValueSelectorSettingsEntry(
     title: String,
     selectedValue: T,
@@ -234,4 +255,44 @@ fun SwitchSettingsEntry(
     isEnabled = isEnabled,
 ) {
     Switch(isChecked = isChecked)
+}
+
+@Composable
+fun SliderSettingsEntry(
+    title: String,
+    text: String,
+    state: Float,
+    range: ClosedFloatingPointRange<Float>,
+    modifier: Modifier = Modifier,
+    onSlide: (Float) -> Unit = { },
+    onSlideComplete: () -> Unit = { },
+    toDisplay: @Composable (Float) -> String = { it.toString() },
+    steps: Int = 0,
+    isEnabled: Boolean = true,
+) = Column(modifier = modifier) {
+    SettingsEntry(
+        title = title,
+        text = "$text (${toDisplay(state)})",
+        onClick = {},
+        isEnabled = isEnabled,
+    )
+
+    Slider(
+        value = state,
+        onValueChange = onSlide,
+        onValueChangeFinished = onSlideComplete,
+        valueRange = range,
+        steps = steps,
+        colors = SliderDefaults.colors(
+            thumbColor = MaterialTheme.colorScheme.onPrimary,
+            activeTrackColor = MaterialTheme.colorScheme.primary,
+            inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.75f),
+        ),
+        modifier = Modifier
+            .height(36.dp)
+            .alpha(if (isEnabled) 1f else 0.5f)
+            .padding(start = 32.dp, end = 16.dp)
+            .padding(vertical = 16.dp)
+            .fillMaxWidth(),
+    )
 }

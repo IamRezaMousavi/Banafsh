@@ -39,11 +39,6 @@ import androidx.media3.common.Player
 import androidx.media3.common.Timeline
 import androidx.media3.common.audio.SonicAudioProcessor
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.database.StandaloneDatabaseProvider
-import androidx.media3.datasource.cache.Cache
-import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
-import androidx.media3.datasource.cache.NoOpCacheEvictor
-import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.RenderersFactory
 import androidx.media3.exoplayer.analytics.AnalyticsListener
@@ -58,7 +53,6 @@ import androidx.media3.exoplayer.audio.SilenceSkippingAudioProcessor
 import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
 import app.banafsh.android.MainActivity
 import app.banafsh.android.R
-import app.banafsh.android.data.enums.ExoPlayerDiskCacheSize
 import app.banafsh.android.data.model.Event
 import app.banafsh.android.data.model.QueuedSong
 import app.banafsh.android.db.Database
@@ -81,7 +75,6 @@ import app.banafsh.android.util.isAtLeastAndroid13
 import app.banafsh.android.util.isAtLeastAndroid6
 import app.banafsh.android.util.isAtLeastAndroid8
 import app.banafsh.android.util.mediaItems
-import app.banafsh.android.util.setPlaybackPitch
 import app.banafsh.android.util.shouldBePlaying
 import app.banafsh.android.util.timer
 import app.banafsh.android.util.toast
@@ -120,7 +113,6 @@ class PlayerService :
     Player.Listener,
     PlaybackStatsListener.Callback {
     private lateinit var mediaSession: MediaSession
-    private lateinit var cache: SimpleCache
     private lateinit var player: ExoPlayer
 
     private val defaultActions =
@@ -211,7 +203,6 @@ class PlayerService :
 
         createNotificationChannel()
 
-        cache = createCache(this)
         player = ExoPlayer.Builder(this, createRendersFactory())
             .setHandleAudioBecomingNoisy(true)
             .setWakeMode(C.WAKE_MODE_LOCAL)
@@ -297,11 +288,6 @@ class PlayerService :
                     player.setPlaybackSpeed(it.coerceAtLeast(0.01f))
                 }
             }
-            subscribe(PlayerPreferences.pitchProperty.stateFlow) {
-                {
-                    player.setPlaybackPitch(it.coerceAtLeast(0.01f))
-                }
-            }
             subscribe(PlayerPreferences.isInvincibilityEnabledProperty.stateFlow) {
                 {
                     this@PlayerService.isInvincibilityEnabled = it
@@ -343,7 +329,6 @@ class PlayerService :
 
             mediaSession.isActive = false
             mediaSession.release()
-            cache.release()
 
             loudnessEnhancer?.release()
 
@@ -849,17 +834,11 @@ class PlayerService :
         val player: ExoPlayer
             get() = this@PlayerService.player
 
-        val cache: Cache
-            get() = this@PlayerService.cache
-
         val mediaSession
             get() = this@PlayerService.mediaSession
 
         val sleepTimerMillisLeft: StateFlow<Long?>?
             get() = timerJob?.millisLeft
-
-        var isLoadingRadio by mutableStateOf(false)
-            private set
 
         var invincible
             get() = isInvincibilityEnabled
@@ -962,22 +941,6 @@ class PlayerService :
     class NotificationDismissReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             context.stopService(context.intent<PlayerService>())
-        }
-    }
-
-    companion object {
-        fun createDatabaseProvider(context: Context) = StandaloneDatabaseProvider(context)
-        fun createCache(context: Context) = with(context) {
-            val cacheEvictor = when (val size = DataPreferences.exoPlayerDiskCacheMaxSize) {
-                ExoPlayerDiskCacheSize.Unlimited -> NoOpCacheEvictor()
-                else -> LeastRecentlyUsedCacheEvictor(size.bytes)
-            }
-
-            val directory = cacheDir.resolve("exoplayer").apply {
-                if (!exists()) mkdir()
-            }
-
-            SimpleCache(directory, cacheEvictor, createDatabaseProvider(context))
         }
     }
 }

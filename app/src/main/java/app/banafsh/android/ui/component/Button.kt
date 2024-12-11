@@ -73,7 +73,7 @@ fun IconButton(onClick: () -> Unit, @DrawableRes icon: Int, modifier: Modifier =
         icon = icon,
         color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.disable,
         modifier = modifier,
-        enabled = enabled,
+        enabled = true,
     )
 
 @Composable
