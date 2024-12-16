@@ -5,7 +5,6 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackParameters
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
-import app.banafsh.android.preference.PlayerPreferences
 import kotlin.random.Random
 import kotlin.time.Duration
 
@@ -74,10 +73,10 @@ fun Player.forceSeekToPrevious() = when {
     else -> {}
 }
 
-fun Player.forceSeekToNext() = when {
-    PlayerPreferences.shuffleEnabled -> randomPlayNext()
-    hasNextMediaItem() -> seekToNext()
-    else -> seekTo(0, C.TIME_UNSET)
+fun Player.forceSeekToNext() = if (hasNextMediaItem()) {
+    seekToNext()
+} else {
+    seekTo(0, C.TIME_UNSET)
 }
 
 fun Player.addNext(mediaItem: MediaItem) = when (playbackState) {

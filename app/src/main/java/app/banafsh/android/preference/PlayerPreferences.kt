@@ -18,7 +18,8 @@ object PlayerPreferences : GlobalPreferencesHolder() {
     val skipSilenceProperty = boolean(false)
     var skipSilence by skipSilenceProperty
 
-    var shuffleEnabled by boolean(false)
+    val shuffleModeEnabledProperty = boolean(false)
+    var shuffleModeEnabled by shuffleModeEnabledProperty
 
     var skipOnError by boolean(false)
 

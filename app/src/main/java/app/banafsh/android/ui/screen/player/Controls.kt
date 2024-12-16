@@ -142,26 +142,9 @@ fun Controls(
             modifier = Modifier.fillMaxWidth(),
         ) {
             IconButton(
-                icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
-                color = MaterialTheme.colorScheme.primary,
-                onClick = {
-                    val currentMediaItem = binder.player.currentMediaItem
-
-                    query {
-                        if (
-                            Database.like(
-                                media.id,
-                                if (likedAt == null) System.currentTimeMillis() else null,
-                            ) == 0
-                        ) {
-                            currentMediaItem
-                                ?.takeIf { it.mediaId == media.id }
-                                ?.let {
-                                    Database.insert(currentMediaItem, Song::toggleLike)
-                                }
-                        }
-                    }
-                },
+                icon = R.drawable.infinite,
+                enabled = trackLoopEnabled,
+                onClick = { trackLoopEnabled = !trackLoopEnabled },
                 modifier = Modifier
                     .weight(1f)
                     .size(24.dp),
@@ -211,9 +194,9 @@ fun Controls(
             )
 
             IconButton(
-                icon = R.drawable.infinite,
-                enabled = trackLoopEnabled,
-                onClick = { trackLoopEnabled = !trackLoopEnabled },
+                icon = R.drawable.shuffle,
+                enabled = shuffleModeEnabled,
+                onClick = { shuffleModeEnabled = !shuffleModeEnabled },
                 modifier = Modifier
                     .weight(1f)
                     .size(24.dp),
@@ -222,13 +205,46 @@ fun Controls(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        IconButton(
-            icon = R.drawable.shuffle,
-            enabled = shuffleEnabled,
-            onClick = { shuffleEnabled = !shuffleEnabled },
-            modifier = Modifier
-                .weight(1f)
-                .size(24.dp),
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            IconButton(
+                icon = if (likedAt == null) R.drawable.heart_outline else R.drawable.heart,
+                color = MaterialTheme.colorScheme.primary,
+                onClick = {
+                    val currentMediaItem = binder.player.currentMediaItem
+
+                    query {
+                        if (
+                            Database.like(
+                                media.id,
+                                if (likedAt == null) System.currentTimeMillis() else null,
+                            ) == 0
+                        ) {
+                            currentMediaItem
+                                ?.takeIf { it.mediaId == media.id }
+                                ?.let {
+                                    Database.insert(currentMediaItem, Song::toggleLike)
+                                }
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .weight(1f)
+                    .size(18.dp),
+            )
+
+            Spacer(modifier = Modifier.width(4.dp))
+
+            IconButton(
+                icon = R.drawable.playlist,
+                enabled = true,
+                onClick = { },
+                modifier = Modifier
+                    .weight(1f)
+                    .size(18.dp),
+            )
+        }
     }
 }

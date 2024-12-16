@@ -277,6 +277,11 @@ class PlayerService :
             subscribe(PlayerPreferences.queueLoopEnabledProperty.stateFlow) {
                 ::updateRepeatMode
             }
+            subscribe(PlayerPreferences.shuffleModeEnabledProperty.stateFlow) {
+                {
+                    player.shuffleModeEnabled = it
+                }
+            }
             subscribe(PlayerPreferences.bassBoostProperty.stateFlow) {
                 ::maybeBassBoost
             }
@@ -304,7 +309,7 @@ class PlayerService :
     private fun updateRepeatMode() {
         player.repeatMode = when {
             PlayerPreferences.trackLoopEnabled -> Player.REPEAT_MODE_ONE
-            PlayerPreferences.queueLoopEnabled -> Player.REPEAT_MODE_ALL
+            PlayerPreferences.queueLoopEnabled || PlayerPreferences.shuffleModeEnabled -> Player.REPEAT_MODE_ALL
             else -> Player.REPEAT_MODE_OFF
         }
     }
