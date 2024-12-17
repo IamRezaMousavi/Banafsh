@@ -232,7 +232,7 @@ fun Controls(
                 },
                 modifier = Modifier
                     .weight(1f)
-                    .size(18.dp),
+                    .size(20.dp),
             )
 
             Spacer(modifier = Modifier.width(4.dp))
@@ -243,7 +243,7 @@ fun Controls(
                 onClick = { },
                 modifier = Modifier
                     .weight(1f)
-                    .size(18.dp),
+                    .size(20.dp),
             )
         }
     }
