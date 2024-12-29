@@ -7,13 +7,16 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Media.ALBUM_ID
 import android.provider.MediaStore.Audio.Media.ARTIST
+import android.provider.MediaStore.Audio.Media.ARTIST_ID
 import android.provider.MediaStore.Audio.Media.DATA
 import android.provider.MediaStore.Audio.Media.DATE_MODIFIED
 import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.IS_MUSIC
 import android.provider.MediaStore.Audio.Media.TITLE
 import android.provider.MediaStore.Audio.Media._ID
+import app.banafsh.android.data.model.Artist
 import app.banafsh.android.data.model.Song
+import app.banafsh.android.data.model.SongArtistMap
 import app.banafsh.android.db.Database
 import app.banafsh.android.db.transaction
 import app.banafsh.android.util.isAtLeastAndroid10
@@ -57,6 +60,7 @@ class AudioMediaCursor(cursor: Cursor) : CursorDao(cursor) {
     val title by string(TITLE)
     val duration by int(DURATION)
     val dateModified by long(DATE_MODIFIED)
+    val artistId by long(ARTIST_ID)
     val artist by string(ARTIST)
     val path by string(DATA)
     private val albumId by long(ALBUM_ID)
@@ -66,7 +70,7 @@ class AudioMediaCursor(cursor: Cursor) : CursorDao(cursor) {
 
 private val mediaScope = CoroutineScope(Dispatchers.IO + CoroutineName("MediaStore worker"))
 
-fun Context.musicFilesAsFlow(): StateFlow<List<Song>> = flow {
+fun Context.musicFilesAsFlow(): StateFlow<List<Pair<Song, Pair<Artist, SongArtistMap>>>> = flow {
     var version: String? = null
 
     while (currentCoroutineContext().isActive) {
@@ -80,14 +84,20 @@ fun Context.musicFilesAsFlow(): StateFlow<List<Song>> = flow {
                     while (next()) {
                         if (!isMusic || duration == 0) continue
                         add(
-                            Song(
-                                id = id.toString(),
-                                title = title,
-                                artist = artist,
-                                duration = duration,
-                                dateModified = dateModified,
-                                thumbnailUrl = albumUri.toString(),
-                                path = path,
+                            Pair(
+                                Song(
+                                    id = id.toString(),
+                                    title = title,
+                                    artist = artist,
+                                    duration = duration,
+                                    dateModified = dateModified,
+                                    thumbnailUrl = albumUri.toString(),
+                                    path = path,
+                                ),
+                                Pair(
+                                    Artist(id = artistId.toString(), name = artist, thumbnailUrl = albumUri.toString()),
+                                    SongArtistMap(songId = id.toString(), artistId = artistId.toString()),
+                                ),
                             ),
                         )
                     }

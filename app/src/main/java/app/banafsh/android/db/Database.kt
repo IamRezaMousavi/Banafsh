@@ -11,11 +11,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
 import app.banafsh.android.Dependencies
+import app.banafsh.android.data.enums.ArtistSortBy
 import app.banafsh.android.data.enums.SongSortBy
 import app.banafsh.android.data.enums.SortOrder
+import app.banafsh.android.data.model.Artist
 import app.banafsh.android.data.model.Event
 import app.banafsh.android.data.model.QueuedSong
 import app.banafsh.android.data.model.Song
+import app.banafsh.android.data.model.SongArtistMap
 import app.banafsh.android.util.toSong
 import kotlinx.coroutines.flow.Flow
 
@@ -87,6 +90,45 @@ interface Database {
     @Query("UPDATE Song SET totalPlayTimeMs = totalPlayTimeMs + :addition WHERE id = :id")
     fun incrementTotalPlayTimeMs(id: String, addition: Long)
 
+    @Query("SELECT * FROM Artist WHERE id = :id")
+    fun artist(id: String): Flow<Artist?>
+
+    @Query("SELECT * FROM Artist ORDER BY name DESC")
+    fun artistsByNameDesc(): Flow<List<Artist>>
+
+    @Query("SELECT * FROM Artist ORDER BY name ASC")
+    fun artistsByNameAsc(): Flow<List<Artist>>
+
+    @Query("SELECT * FROM Artist ORDER BY bookmarkedAt DESC")
+    fun artistsByRowIdDesc(): Flow<List<Artist>>
+
+    @Query("SELECT * FROM Artist ORDER BY bookmarkedAt ASC")
+    fun artistsByRowIdAsc(): Flow<List<Artist>>
+
+    fun artists(sortBy: ArtistSortBy, sortOrder: SortOrder) = when (sortBy) {
+        ArtistSortBy.Name -> when (sortOrder) {
+            SortOrder.Ascending -> artistsByNameAsc()
+            SortOrder.Descending -> artistsByNameDesc()
+        }
+
+        ArtistSortBy.DateAdded -> when (sortOrder) {
+            SortOrder.Ascending -> artistsByRowIdAsc()
+            SortOrder.Descending -> artistsByRowIdDesc()
+        }
+    }
+
+    @Transaction
+    @Query(
+        """
+        SELECT * FROM Song
+        JOIN SongArtistMap ON Song.id = SongArtistMap.songId
+        WHERE SongArtistMap.artistId = :artistId
+        ORDER BY Song.ROWID DESC
+        """,
+    )
+    @RewriteQueriesToDropUnusedColumns
+    fun artistSongs(artistId: String): Flow<List<Song>>
+
     @Query("SELECT COUNT (*) FROM Event")
     fun eventsCount(): Flow<Int>
 
@@ -101,6 +143,16 @@ interface Database {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(song: Song): Long
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(artists: Artist, songArtistMaps: SongArtistMap)
+
+    @Transaction
+    fun insert(item: Pair<Song, Pair<Artist, SongArtistMap>>) {
+        val (song, artist) = item
+        insert(song)
+        insert(artist.first, artist.second)
+    }
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(event: Event)
@@ -122,6 +174,8 @@ interface Database {
 @androidx.room.Database(
     entities = [
         Song::class,
+        Artist::class,
+        SongArtistMap::class,
         Event::class,
         QueuedSong::class,
     ],

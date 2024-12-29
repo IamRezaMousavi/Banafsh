@@ -1,6 +1,7 @@
 package app.banafsh.android.ui.screen.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
@@ -12,6 +13,8 @@ import app.banafsh.android.util.HasPermissions
 
 @Composable
 fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
+    val saveableStateHolder = rememberSaveableStateHolder()
+
     Scaffold(
         topIconButtonId = R.drawable.settings,
         onTopIconButtonClick = {
@@ -26,9 +29,18 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
             item(3, stringResource(R.string.albums), R.drawable.disc)
         },
         modifier = modifier,
-    ) {
-        HasPermissions {
-            HomeLocalSong()
+    ) { currentTabIndex ->
+        saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {
+            HasPermissions {
+                when (currentTabIndex) {
+                    0 -> HomeLocalSong()
+                    2 -> HomeArtist(
+                        onArtistClick = { artist ->
+                            navController.navigate(Screen.Artist.route + "/${artist.id}")
+                        },
+                    )
+                }
+            }
         }
     }
 }

@@ -6,13 +6,16 @@ import androidx.compose.foundation.Indication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -20,6 +23,51 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import app.banafsh.android.ui.theme.disable
+
+@Composable
+fun PrimaryButton(onClick: () -> Unit, @DrawableRes icon: Int, modifier: Modifier = Modifier, enabled: Boolean = true) {
+    Box(
+        modifier = modifier
+            .clip(MaterialTheme.shapes.large)
+            .clickable(enabled = enabled, onClick = onClick)
+            .background(MaterialTheme.colorScheme.primary)
+            .size(62.dp),
+    ) {
+        Image(
+            painter = painterResource(icon),
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(20.dp),
+        )
+    }
+}
+
+@Composable
+fun SecondaryButton(
+    onClick: () -> Unit,
+    @DrawableRes iconId: Int,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+) {
+    Box(
+        modifier = modifier
+            .clip(CircleShape)
+            .clickable(enabled = enabled, onClick = onClick)
+            .background(MaterialTheme.colorScheme.primary)
+            .size(48.dp),
+    ) {
+        Image(
+            painter = painterResource(iconId),
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(18.dp),
+        )
+    }
+}
 
 @Composable
 fun TextButton(
