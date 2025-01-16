@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 object Dimensions {
     object Thumbnails {
         val album = 108.dp
-        val artist = 92.dp
+        val artist = 108.dp
         val song = 54.dp
         val playlist = album
 

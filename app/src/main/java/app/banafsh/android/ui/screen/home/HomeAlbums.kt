@@ -32,36 +32,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.banafsh.android.LocalPlayerAwareWindowInsets
 import app.banafsh.android.R
-import app.banafsh.android.data.enums.ArtistSortBy
+import app.banafsh.android.data.enums.AlbumSortBy
 import app.banafsh.android.data.enums.SortOrder
-import app.banafsh.android.data.model.Artist
+import app.banafsh.android.data.model.Album
 import app.banafsh.android.db.Database
 import app.banafsh.android.preference.OrderPreferences
 import app.banafsh.android.ui.component.FloatingActionsContainerWithScrollToTop
 import app.banafsh.android.ui.component.Header
 import app.banafsh.android.ui.component.HeaderIconButton
-import app.banafsh.android.ui.item.ArtistItem
+import app.banafsh.android.ui.item.AlbumItem
 import app.banafsh.android.ui.theme.Dimensions
-import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun HomeArtists(onArtistClick: (Artist) -> Unit, modifier: Modifier = Modifier) = with(OrderPreferences) {
+fun HomeAlbums(onAlbumClick: (Album) -> Unit, modifier: Modifier = Modifier) = with(OrderPreferences) {
     val colorPalette = MaterialTheme.colorScheme
 
-    var items by remember { mutableStateOf(emptyList<Artist>()) }
+    var items by remember { mutableStateOf(emptyList<Album>()) }
 
-    LaunchedEffect(artistSortBy, artistSortOrder) {
-        Database
-            .artists(artistSortBy, artistSortOrder)
-            .collect { items = it.toImmutableList() }
+    LaunchedEffect(albumSortBy, albumSortOrder) {
+        Database.albums(albumSortBy, albumSortOrder).collect { items = it }
     }
 
     val sortOrderIconRotation by animateFloatAsState(
-        targetValue = if (artistSortOrder == SortOrder.Ascending) 0f else 180f,
-        animationSpec = tween(
-            durationMillis = 400,
-            easing = LinearEasing,
-        ),
+        targetValue = if (albumSortOrder == SortOrder.Ascending) 0f else 180f,
+        animationSpec = tween(durationMillis = 400, easing = LinearEasing),
         label = "",
     )
 
@@ -88,34 +82,43 @@ fun HomeArtists(onArtistClick: (Artist) -> Unit, modifier: Modifier = Modifier) 
                 contentType = 0,
                 span = { GridItemSpan(maxLineSpan) },
             ) {
-                Header(title = stringResource(R.string.artists)) {
+                Header(title = stringResource(R.string.albums)) {
+                    HeaderIconButton(
+                        icon = R.drawable.calendar,
+                        enabled = albumSortBy == AlbumSortBy.Year,
+                        onClick = { albumSortBy = AlbumSortBy.Year },
+                    )
+
                     HeaderIconButton(
                         icon = R.drawable.text,
-                        enabled = artistSortBy == ArtistSortBy.Name,
-                        onClick = { artistSortBy = ArtistSortBy.Name },
+                        enabled = albumSortBy == AlbumSortBy.Title,
+                        onClick = { albumSortBy = AlbumSortBy.Title },
                     )
 
                     HeaderIconButton(
                         icon = R.drawable.time,
-                        enabled = artistSortBy == ArtistSortBy.DateAdded,
-                        onClick = { artistSortBy = ArtistSortBy.DateAdded },
+                        enabled = albumSortBy == AlbumSortBy.DateAdded,
+                        onClick = { albumSortBy = AlbumSortBy.DateAdded },
                     )
 
                     Spacer(modifier = Modifier.width(2.dp))
 
                     HeaderIconButton(
                         icon = R.drawable.arrow_up,
-                        onClick = { artistSortOrder = !artistSortOrder },
+                        onClick = { albumSortOrder = !albumSortOrder },
                         modifier = Modifier.graphicsLayer { rotationZ = sortOrderIconRotation },
                     )
                 }
             }
 
-            items(items = items, key = Artist::id) { artist ->
-                ArtistItem(
-                    artist = artist,
+            items(
+                items = items,
+                key = Album::id,
+            ) { album ->
+                AlbumItem(
+                    album = album,
                     modifier = Modifier
-                        .clickable(onClick = { onArtistClick(artist) })
+                        .clickable(onClick = { onAlbumClick(album) })
                         .animateItem(fadeInSpec = null, fadeOutSpec = null),
                 )
             }

@@ -49,6 +49,7 @@ import app.banafsh.android.data.enums.SongSortBy
 import app.banafsh.android.data.enums.SortOrder
 import app.banafsh.android.data.model.Song
 import app.banafsh.android.preference.OrderPreferences.songSortOrder
+import app.banafsh.android.ui.component.FloatingActionsContainerWithScrollToTop
 import app.banafsh.android.ui.component.Header
 import app.banafsh.android.ui.component.HeaderIconButton
 import app.banafsh.android.ui.component.TextField
@@ -216,5 +217,11 @@ fun HomeSong(
                 )
             }
         }
+
+        FloatingActionsContainerWithScrollToTop(
+            lazyListState = lazyListState,
+            icon = R.drawable.search,
+            onClick = { },
+        )
     }
 }
