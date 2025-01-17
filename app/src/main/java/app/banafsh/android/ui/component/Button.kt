@@ -30,13 +30,13 @@ fun PrimaryButton(onClick: () -> Unit, @DrawableRes icon: Int, modifier: Modifie
         modifier = modifier
             .clip(MaterialTheme.shapes.large)
             .clickable(enabled = enabled, onClick = onClick)
-            .background(MaterialTheme.colorScheme.primary)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .size(62.dp),
     ) {
         Image(
             painter = painterResource(icon),
             contentDescription = null,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer),
             modifier = Modifier
                 .align(Alignment.Center)
                 .size(20.dp),
@@ -55,13 +55,13 @@ fun SecondaryButton(
         modifier = modifier
             .clip(CircleShape)
             .clickable(enabled = enabled, onClick = onClick)
-            .background(MaterialTheme.colorScheme.primary)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .size(48.dp),
     ) {
         Image(
             painter = painterResource(iconId),
             contentDescription = null,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer),
             modifier = Modifier
                 .align(Alignment.Center)
                 .size(18.dp),

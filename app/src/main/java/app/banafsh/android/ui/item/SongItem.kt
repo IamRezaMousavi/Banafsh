@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import app.banafsh.android.data.model.Song
 import app.banafsh.android.ui.theme.Dimensions
 import coil.compose.AsyncImage
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun SongItem(song: Song, modifier: Modifier = Modifier, trailingContent: @Composable (() -> Unit)? = null) = Row(
@@ -95,7 +96,9 @@ fun SongItem(song: Song, modifier: Modifier = Modifier, trailingContent: @Compos
 
             song.duration?.let { duration ->
                 Text(
-                    text = duration.toString(),
+                    text = duration.milliseconds.toComponents { minutes, seconds, _ ->
+                        "$minutes:${seconds.toString().padStart(2, '0')}"
+                    },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.secondary,
                     maxLines = 1,
