@@ -5,11 +5,11 @@ import androidx.compose.ui.res.stringResource
 import app.banafsh.android.R
 import app.banafsh.android.db.Database
 import app.banafsh.android.preference.OrderPreferences
-import app.banafsh.android.ui.screen.home.HomeSong
+import app.banafsh.android.ui.component.SongList
 
 @Composable
 fun ArtistSong(artistId: String) = with(OrderPreferences) {
-    HomeSong(
+    SongList(
         songProvider = {
             Database.artistSongs(artistId)
         },

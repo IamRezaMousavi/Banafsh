@@ -55,6 +55,7 @@ fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) 
         tabColumnContent = { item ->
             item(0, stringResource(R.string.appearance), R.drawable.color_palette)
             item(1, stringResource(R.string.player), R.drawable.play)
+            item(2, stringResource(R.string.about), R.drawable.information)
         },
         modifier = modifier,
     ) { currentTabIndex ->
@@ -62,6 +63,7 @@ fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) 
             when (currentTabIndex) {
                 0 -> AppearanceSettings()
                 1 -> PlayerSettings()
+                2 -> About()
             }
         }
     }
@@ -124,7 +126,7 @@ fun SettingsGroup(
         Text(
             description,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSecondary,
+            color = MaterialTheme.colorScheme.secondary,
             modifier =
             Modifier
                 .padding(start = 16.dp, top = 16.dp, bottom = 8.dp),

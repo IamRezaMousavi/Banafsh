@@ -179,7 +179,7 @@
     <string name="view_playlist">View playlist</string>
 
     <string name="search_placeholder">Enter a name</string>
-    <string name="format_version_credits">v%1$s by Huizengek &amp; vfsfitvnm &amp; Reza</string>
+    <string name="format_version_credits">v%1$s by Reza</string>
     <string name="social">Social</string>
     <string name="contact">Contact</string>
     <string name="github">GitHub</string>
@@ -407,5 +407,15 @@
     <plurals name="song_count_plural">
         <item quantity="one">%1$d song</item>
         <item quantity="other">%1$d songs</item>
+    </plurals>
+
+    <plurals name="artist_count_plural">
+        <item quantity="one">%1$d artist</item>
+        <item quantity="other">%1$d artists</item>
+    </plurals>
+
+    <plurals name="album_count_plural">
+        <item quantity="one">%1$d artist</item>
+        <item quantity="other">%1$d artists</item>
     </plurals>
 </resources>

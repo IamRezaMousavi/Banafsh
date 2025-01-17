@@ -23,9 +23,9 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
         tabIndex = UIStatePreferences.homeScreenTabIndex,
         onTabChange = { UIStatePreferences.homeScreenTabIndex = it },
         tabColumnContent = { item ->
-            item(0, stringResource(R.string.songs), R.drawable.musical_note)
-            item(1, stringResource(R.string.quick_picks), R.drawable.sparkles)
-            item(2, stringResource(R.string.discover), R.drawable.global)
+            item(0, stringResource(R.string.quick_picks), R.drawable.sparkles)
+            item(1, stringResource(R.string.discover), R.drawable.global)
+            item(2, stringResource(R.string.songs), R.drawable.musical_note)
             item(3, stringResource(R.string.playlists), R.drawable.playlist)
             item(4, stringResource(R.string.artists), R.drawable.person)
             item(5, stringResource(R.string.albums), R.drawable.disc)
@@ -35,13 +35,13 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
         saveableStateHolder.SaveableStateProvider(key = currentTabIndex) {
             HasPermissions {
                 when (currentTabIndex) {
-                    in 0..3 -> HomeLocalSong()
-                    4 -> HomeArtists(
+                    in 0..3 -> HomeSong()
+                    4 -> HomeArtist(
                         onArtistClick = { artist ->
                             navController.navigate(Screen.Artist.route + "/${artist.id}")
                         },
                     )
-                    5 -> HomeAlbums(
+                    5 -> HomeAlbum(
                         onAlbumClick = { album ->
                             navController.navigate(Screen.Album.route + "/${album.id}")
                         },

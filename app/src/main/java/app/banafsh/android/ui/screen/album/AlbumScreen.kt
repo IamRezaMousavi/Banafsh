@@ -18,8 +18,8 @@ fun AlbumScreen(albumId: String, navController: NavController, modifier: Modifie
         onTopIconButtonClick = {
             navController.popBackStack()
         },
-        tabIndex = UIStatePreferences.artistScreenTabIndex,
-        onTabChange = { UIStatePreferences.artistScreenTabIndex = it },
+        tabIndex = UIStatePreferences.albumScreenTabIndex,
+        onTabChange = { UIStatePreferences.albumScreenTabIndex = it },
         tabColumnContent = { item ->
             item(0, stringResource(R.string.songs), R.drawable.musical_note)
         },
