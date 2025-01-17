@@ -27,7 +27,7 @@ fun AppTheme(
 
     val context = LocalContext.current as ComponentActivity
 
-    val colorScheme = remember(sampleBitmap, colorSource) {
+    val colorScheme = remember(sampleBitmap, colorSource, isDark) {
         when {
             colorSource == ColorSource.Default -> SchemeTonalSpot(
                 Hct.fromInt(baseColor.toArgb()),

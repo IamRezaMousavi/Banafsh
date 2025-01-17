@@ -76,7 +76,6 @@ val ColorSource.nameLocalized
             when (this) {
                 ColorSource.Default -> R.string.color_source_default
                 ColorSource.Dynamic -> R.string.color_source_dynamic
-                ColorSource.MaterialYou -> R.string.color_source_material_you
             },
         )
 

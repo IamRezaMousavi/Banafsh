@@ -97,7 +97,7 @@ fun SettingsCategoryScreen(
                 Text(
                     description,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSecondary,
+                    color = MaterialTheme.colorScheme.secondary,
                 )
                 SettingsGroupSpacer()
             }
