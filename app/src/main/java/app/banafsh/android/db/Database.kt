@@ -10,6 +10,7 @@ import androidx.room.RewriteQueriesToDropUnusedColumns
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
+import androidx.room.Update
 import app.banafsh.android.Dependencies
 import app.banafsh.android.data.enums.AlbumSortBy
 import app.banafsh.android.data.enums.ArtistSortBy
@@ -223,6 +224,9 @@ interface Database {
             if (insert(song) == -1L) return
         }
     }
+
+    @Update
+    fun update(song: Song)
 
     @Delete
     fun delete(song: Song)

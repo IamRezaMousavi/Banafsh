@@ -21,8 +21,10 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import app.banafsh.android.LocalPlayerAwareWindowInsets
 import app.banafsh.android.R
-import app.banafsh.android.preference.UIStatePreferences
 import app.banafsh.android.ui.component.Header
 import app.banafsh.android.ui.component.Scaffold
 import app.banafsh.android.ui.component.Switch
@@ -45,13 +46,15 @@ import kotlinx.collections.immutable.toImmutableList
 fun SettingsScreen(navController: NavController, modifier: Modifier = Modifier) {
     val saveableStateHolder = rememberSaveableStateHolder()
 
+    val (tabIndex, onTabChanged) = rememberSaveable { mutableIntStateOf(0) }
+
     Scaffold(
         topIconButtonId = R.drawable.chevron_back,
         onTopIconButtonClick = {
             navController.popBackStack()
         },
-        tabIndex = UIStatePreferences.homeScreenTabIndex,
-        onTabChange = { UIStatePreferences.homeScreenTabIndex = it },
+        tabIndex = tabIndex,
+        onTabChange = onTabChanged,
         tabColumnContent = { item ->
             item(0, stringResource(R.string.appearance), R.drawable.color_palette)
             item(1, stringResource(R.string.player), R.drawable.play)

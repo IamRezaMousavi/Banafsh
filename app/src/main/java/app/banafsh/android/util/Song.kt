@@ -1,6 +1,7 @@
 package app.banafsh.android.util
 
 import android.content.ContentUris
+import android.content.Intent
 import android.provider.MediaStore
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -38,3 +39,13 @@ fun MediaItem.toSong(): Song = Song(
     duration = mediaMetadata.extras?.getInt("duration"),
     thumbnailUrl = mediaMetadata.artworkUri?.toString(),
 )
+
+fun Song.shareSongIndent(): Intent = Intent().apply {
+    action = Intent.ACTION_SEND
+    type = "audio/*"
+    putExtra(
+        Intent.EXTRA_STREAM,
+        getUri(),
+    )
+    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+}

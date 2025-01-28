@@ -4,8 +4,9 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -57,6 +58,7 @@ import kotlin.random.Random
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SongList(
     songProvider: () -> Flow<List<Song>>,
@@ -68,6 +70,7 @@ fun SongList(
     modifier: Modifier = Modifier,
 ) {
     val binder = LocalPlayerServiceBinder.current
+    val menuState = LocalMenuState.current
 
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -204,14 +207,21 @@ fun SongList(
                 SongItem(
                     song,
                     modifier = Modifier
-                        .clickable {
-                            keyboardController?.hide()
-                            binder?.player?.forcePlayAtIndex(
-                                songs.map(Song::asMediaItem),
-                                songs.indexOf(song),
-                            )
-                            binder?.player?.play()
-                        }.animateItem(fadeInSpec = null, fadeOutSpec = null),
+                        .combinedClickable(
+                            onLongClick = {
+                                menuState.display {
+                                    SongMenu(song)
+                                }
+                            },
+                            onClick = {
+                                keyboardController?.hide()
+                                binder?.player?.forcePlayAtIndex(
+                                    songs.map(Song::asMediaItem),
+                                    songs.indexOf(song),
+                                )
+                                binder?.player?.play()
+                            },
+                        ).animateItem(fadeInSpec = null, fadeOutSpec = null),
                 )
             }
         }

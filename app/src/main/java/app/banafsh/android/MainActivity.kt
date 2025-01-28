@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.systemBars
@@ -39,6 +40,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import app.banafsh.android.service.PlayerService
 import app.banafsh.android.ui.NavigationStack
+import app.banafsh.android.ui.component.BottomSheetMenu
 import app.banafsh.android.ui.component.rememberBottomSheetState
 import app.banafsh.android.ui.screen.player.Player
 import app.banafsh.android.ui.theme.AppTheme
@@ -151,6 +153,12 @@ class MainActivity : ComponentActivity() {
                         Player(
                             layoutState = playerBottomSheetState,
                             modifier = Modifier.align(Alignment.BottomCenter),
+                        )
+
+                        BottomSheetMenu(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .imePadding(),
                         )
                     }
 
