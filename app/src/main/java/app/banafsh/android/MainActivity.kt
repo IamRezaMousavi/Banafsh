@@ -1,6 +1,5 @@
 package app.banafsh.android
 
-import android.Manifest
 import android.content.ComponentName
 import android.content.Context
 import android.content.ServiceConnection
@@ -48,24 +47,6 @@ import app.banafsh.android.ui.theme.Dimensions
 import app.banafsh.android.util.DisposableListener
 import app.banafsh.android.util.collectProvidedBitmapAsState
 import app.banafsh.android.util.intent
-import app.banafsh.android.util.isAtLeastAndroid10
-import app.banafsh.android.util.isAtLeastAndroid13
-
-val permissions =
-    when {
-        isAtLeastAndroid13 -> {
-            arrayOf(Manifest.permission.READ_MEDIA_AUDIO)
-        }
-        isAtLeastAndroid10 -> {
-            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
-        else -> {
-            arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            )
-        }
-    }
 
 val LocalPlayerAwareWindowInsets =
     compositionLocalOf<WindowInsets> { error("No player insets provided") }

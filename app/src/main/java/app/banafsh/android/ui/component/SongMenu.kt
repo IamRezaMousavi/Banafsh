@@ -25,8 +25,8 @@ import app.banafsh.android.data.model.Song
 import app.banafsh.android.db.Database
 import app.banafsh.android.db.query
 import app.banafsh.android.ui.item.SongItem
+import app.banafsh.android.util.delete
 import app.banafsh.android.util.shareSongIndent
-import app.banafsh.android.util.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,6 +34,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun SongMenu(song: Song, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val menuState = LocalMenuState.current
 
     var likedAt by remember { mutableStateOf<Long?>(null) }
 
@@ -101,7 +102,14 @@ fun SongMenu(song: Song, modifier: Modifier = Modifier) {
         MenuEntry(
             icon = R.drawable.trash,
             text = stringResource(R.string.delete),
-            onClick = { context.toast("${song.title} deleted") },
+            onClick = {
+                if (song.delete(context)) {
+                    query {
+                        Database.delete(song)
+                    }
+                }
+                menuState.hide()
+            },
         )
     }
 }

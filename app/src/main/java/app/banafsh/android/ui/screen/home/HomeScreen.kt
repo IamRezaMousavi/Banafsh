@@ -8,8 +8,8 @@ import androidx.navigation.NavController
 import app.banafsh.android.R
 import app.banafsh.android.preference.UIStatePreferences
 import app.banafsh.android.ui.Screen
+import app.banafsh.android.ui.component.HasPermissions
 import app.banafsh.android.ui.component.Scaffold
-import app.banafsh.android.util.HasPermissions
 
 @Composable
 fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {

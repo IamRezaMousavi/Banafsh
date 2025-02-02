@@ -40,11 +40,15 @@ import app.banafsh.android.preference.PlayerPreferences
 import app.banafsh.android.service.PlayerService
 import app.banafsh.android.ui.component.FadingRow
 import app.banafsh.android.ui.component.IconButton
+import app.banafsh.android.ui.component.LocalMenuState
 import app.banafsh.android.ui.component.SeekBar
+import app.banafsh.android.ui.component.SongMenu
 import app.banafsh.android.ui.theme.util.roundedShape
 import app.banafsh.android.util.forceSeekToNext
 import app.banafsh.android.util.forceSeekToPrevious
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.withContext
 
 @Composable
 fun Controls(
@@ -54,6 +58,15 @@ fun Controls(
     position: Long,
     modifier: Modifier = Modifier,
 ) = with(PlayerPreferences) {
+    val menuState = LocalMenuState.current
+
+    var song by remember { mutableStateOf<Song?>(null) }
+    LaunchedEffect(media) {
+        withContext(Dispatchers.IO) {
+            song = Database.song(media.id)
+        }
+    }
+
     var likedAt by remember { mutableStateOf<Long?>(null) }
 
     LaunchedEffect(media) {
@@ -238,9 +251,15 @@ fun Controls(
             Spacer(modifier = Modifier.width(4.dp))
 
             IconButton(
-                icon = R.drawable.playlist,
+                icon = R.drawable.ellipsis_vertical,
                 enabled = true,
-                onClick = { },
+                onClick = {
+                    song?.let {
+                        menuState.display {
+                            SongMenu(song!!)
+                        }
+                    }
+                },
                 modifier = Modifier
                     .weight(1f)
                     .size(20.dp),

@@ -85,6 +85,11 @@ interface Database {
     @RewriteQueriesToDropUnusedColumns
     fun songs(songIds: List<String>): List<Song>
 
+    @Transaction
+    @Query("SELECT * FROM Song WHERE id = :songId")
+    @RewriteQueriesToDropUnusedColumns
+    fun song(songId: String): Song?
+
     @Query("UPDATE Song SET likedAt = :likedAt WHERE id = :songId")
     fun like(songId: String, likedAt: Long?): Int
 

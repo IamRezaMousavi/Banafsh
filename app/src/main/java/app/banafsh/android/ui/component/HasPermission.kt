@@ -1,5 +1,6 @@
-package app.banafsh.android.util
+package app.banafsh.android.ui.component
 
+import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
@@ -26,9 +27,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.banafsh.android.R
 import app.banafsh.android.data.provider.musicFilesAsFlow
-import app.banafsh.android.permissions
-import app.banafsh.android.ui.component.TextButton
+import app.banafsh.android.util.hasPermissions
+import app.banafsh.android.util.isAtLeastAndroid13
+import app.banafsh.android.util.isCompositionLaunched
 import kotlinx.coroutines.flow.collect
+
+val readPermission =
+    if (isAtLeastAndroid13) Manifest.permission.READ_MEDIA_AUDIO
+    else Manifest.permission.READ_EXTERNAL_STORAGE
+val permissions = arrayOf(readPermission, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
 @Composable
 fun HasPermissions(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
