@@ -13,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +48,21 @@ fun SongMenu(song: Song, modifier: Modifier = Modifier) {
             }
         }
     }
+
+    var isShowDeleteDialog by rememberSaveable { mutableStateOf(false) }
+    if (isShowDeleteDialog)
+        ConfirmationDialog(
+            text = stringResource(R.string.confirm_delete_song),
+            onDismiss = { isShowDeleteDialog = false },
+            onConfirm = {
+                if (song.delete(context)) {
+                    query {
+                        Database.delete(song)
+                    }
+                }
+                menuState.hide()
+            },
+        )
 
     Menu(modifier = modifier) {
         Row(
@@ -102,14 +118,7 @@ fun SongMenu(song: Song, modifier: Modifier = Modifier) {
         MenuEntry(
             icon = R.drawable.trash,
             text = stringResource(R.string.delete),
-            onClick = {
-                if (song.delete(context)) {
-                    query {
-                        Database.delete(song)
-                    }
-                }
-                menuState.hide()
-            },
+            onClick = { isShowDeleteDialog = true },
         )
     }
 }

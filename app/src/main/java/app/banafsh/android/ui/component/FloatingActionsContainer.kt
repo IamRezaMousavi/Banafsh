@@ -109,7 +109,7 @@ private fun BoxScope.FloatingActions(
             enter = slideInVertically(tween(500, if (icon == null) 0 else 100)) { it },
             exit = slideOutVertically(tween(500, 0)) { it },
         ) {
-            SecondaryButton(
+            MiniFloatingActionButton(
                 onClick = {
                     coroutineScope.launch { onScrollToTop() }
                 },
@@ -135,7 +135,7 @@ private fun BoxScope.FloatingActions(
                     targetOffsetY = { it },
                 ),
             ) {
-                PrimaryButton(
+                FloatingActionButton(
                     icon = icon,
                     onClick = onClick,
                     enabled = transition.targetState?.isScrollingDown == false,

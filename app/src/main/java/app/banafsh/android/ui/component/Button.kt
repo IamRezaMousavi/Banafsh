@@ -25,7 +25,12 @@ import androidx.compose.ui.unit.dp
 import app.banafsh.android.ui.theme.disable
 
 @Composable
-fun PrimaryButton(onClick: () -> Unit, @DrawableRes icon: Int, modifier: Modifier = Modifier, enabled: Boolean = true) {
+fun FloatingActionButton(
+    onClick: () -> Unit,
+    @DrawableRes icon: Int,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+) {
     Box(
         modifier = modifier
             .clip(MaterialTheme.shapes.large)
@@ -45,7 +50,7 @@ fun PrimaryButton(onClick: () -> Unit, @DrawableRes icon: Int, modifier: Modifie
 }
 
 @Composable
-fun SecondaryButton(
+fun MiniFloatingActionButton(
     onClick: () -> Unit,
     @DrawableRes iconId: Int,
     modifier: Modifier = Modifier,
