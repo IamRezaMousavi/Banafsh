@@ -32,10 +32,9 @@ import app.banafsh.android.util.isAtLeastAndroid13
 import app.banafsh.android.util.isCompositionLaunched
 import kotlinx.coroutines.flow.collect
 
-val readPermission =
-    if (isAtLeastAndroid13) Manifest.permission.READ_MEDIA_AUDIO
-    else Manifest.permission.READ_EXTERNAL_STORAGE
-val permissions = arrayOf(readPermission, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+val permissions =
+    if (isAtLeastAndroid13) arrayOf(Manifest.permission.READ_MEDIA_AUDIO)
+    else arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
 @Composable
 fun HasPermissions(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
